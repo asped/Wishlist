@@ -15,7 +15,7 @@
             <div class="child-avatar">{{ child.name[0].upper() }}</div>
             <h2 class="child-name">{{ child.name }}</h2>
             {% if child.age %}
-            <p class="child-age">Age {{ child.age }}</p>
+            <p class="child-age">Vek {{ child.age }}</p>
             {% endif %}
             <div class="gift-counts">
                 {% set available = child.gifts | selectattr('is_purchased', 'equalto', False) | list | length %}
