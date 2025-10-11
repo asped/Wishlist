@@ -1,12 +1,12 @@
 {% extends "base.html" %}
 
-{% block title %}Manage Gifts for {{ child.name }}{% endblock %}
+{% block title %}Spravovať Darceky pre {{ child.name }}{% endblock %}
 
 {% block content %}
 <div class="page-header">
-    <a href="{{ url_for('admin') }}" class="back-link">← Back to Admin Dashboard</a>
-    <h1 class="page-title">Manage Gifts for {{ child.name }}</h1>
-    <a href="{{ url_for('admin_add_gift', child_id=child.id) }}" class="btn btn-primary">+ Add Gift</a>
+    <a href="{{ url_for('admin') }}" class="back-link">← Späť na Správny Panel</a>
+    <h1 class="page-title">Spravovať Darceky pre {{ child.name }}</h1>
+    <a href="{{ url_for('admin_add_gift', child_id=child.id) }}" class="btn btn-primary">+ Pridať Darček</a>
 </div>
 
 {% if child.gifts %}
@@ -14,11 +14,11 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>Gift Name</th>
-                    <th>Description</th>
-                    <th>Status</th>
-                    <th>Purchased By</th>
-                    <th>Actions</th>
+                    <th>Názov Darčeka</th>
+                    <th>Popis</th>
+                    <th>Stav</th>
+                    <th>Kúpil/a</th>
+                    <th>Akcie</th>
                 </tr>
             </thead>
             <tbody>
@@ -34,16 +34,16 @@
                     </td>
                     <td>
                         {% if gift.is_purchased %}
-                            <span class="status-badge status-purchased">Purchased</span>
+                            <span class="status-badge status-purchased">Kúpené</span>
                         {% else %}
-                            <span class="status-badge status-available">Available</span>
+                            <span class="status-badge status-available">Dostupné</span>
                         {% endif %}
                     </td>
                     <td>{{ gift.purchased_by if gift.purchased_by else '-' }}</td>
                     <td class="actions-cell">
-                        <a href="{{ url_for('admin_edit_gift', gift_id=gift.id) }}" class="btn btn-small btn-secondary">Edit</a>
-                        <form method="POST" action="{{ url_for('admin_delete_gift', gift_id=gift.id) }}" style="display: inline;" onsubmit="return confirm('Delete this gift?');">
-                            <button type="submit" class="btn btn-small btn-danger">Delete</button>
+                        <a href="{{ url_for('admin_edit_gift', gift_id=gift.id) }}" class="btn btn-small btn-secondary">Upraviť</a>
+                        <form method="POST" action="{{ url_for('admin_delete_gift', gift_id=gift.id) }}" style="display: inline;" onsubmit="return confirm('Vymazať tento darček?');">
+                            <button type="submit" class="btn btn-small btn-danger">Vymazať</button>
                         </form>
                     </td>
                 </tr>
@@ -54,9 +54,9 @@
 {% else %}
     <div class="empty-state">
         <div class="empty-icon">🎁</div>
-        <h2>No Gifts Yet</h2>
-        <p>Add the first gift to {{ child.name }}'s list</p>
-        <a href="{{ url_for('admin_add_gift', child_id=child.id) }}" class="btn btn-primary">+ Add Gift</a>
+        <h2>Zatiaľ Žiadne Darceky</h2>
+        <p>Pridajte prvý darček do zoznamu {{ child.name }}</p>
+        <a href="{{ url_for('admin_add_gift', child_id=child.id) }}" class="btn btn-primary">+ Pridať Darček</a>
     </div>
 {% endif %}
 {% endblock %}

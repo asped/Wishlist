@@ -1,18 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sk">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Family Gift List{% endblock %}</title>
+    <title>{% block title %}Rodinný Zoznam Darčekov{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
     <nav class="navbar">
         <div class="container">
-            <a href="{{ url_for('index') }}" class="nav-brand">🎁 Family Gift List</a>
+            <a href="{{ url_for('index') }}" class="nav-brand">🎁 Rodinný Zoznam Darčekov</a>
             <div class="nav-links">
-                <a href="{{ url_for('index') }}" class="nav-link">Gift Lists</a>
-                <a href="{{ url_for('admin') }}" class="nav-link admin-link">Admin</a>
+                <a href="{{ url_for('index') }}" class="nav-link">Zoznamy Darčekov</a>
+                <a href="{{ url_for('admin') }}" class="nav-link admin-link">Správa</a>
             </div>
         </div>
     </nav>
@@ -23,7 +23,7 @@
 
     <footer class="footer">
         <div class="container">
-            <p>Made with ❤️ for the family</p>
+            <p>Vyrobené s ❤️ pre rodinu</p>
         </div>
     </footer>
 </body>

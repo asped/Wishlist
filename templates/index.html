@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 
-{% block title %}Gift Lists - Family Gift List{% endblock %}
+{% block title %}Zoznamy Darčekov - Rodinný Zoznam Darčekov{% endblock %}
 
 {% block content %}
 <div class="page-header">
-    <h1 class="page-title">Choose a Child to See Their Gift List</h1>
-    <p class="page-subtitle">Click on a name to see what gifts they would like</p>
+    <h1 class="page-title">Vyberte Dieťa, Aby Ste Videli Jeho Zoznam Darčekov</h1>
+    <p class="page-subtitle">Kliknite na meno, aby ste videli, aké darceky by chceli</p>
 </div>
 
 {% if children %}
@@ -20,8 +20,8 @@
             <div class="gift-counts">
                 {% set available = child.gifts | selectattr('is_purchased', 'equalto', False) | list | length %}
                 {% set purchased = child.gifts | selectattr('is_purchased', 'equalto', True) | list | length %}
-                <span class="badge badge-available">{{ available }} Available</span>
-                <span class="badge badge-purchased">{{ purchased }} Purchased</span>
+                <span class="badge badge-available">{{ available }} Dostupných</span>
+                <span class="badge badge-purchased">{{ purchased }} Kúpených</span>
             </div>
         </a>
         {% endfor %}
@@ -29,9 +29,9 @@
 {% else %}
     <div class="empty-state">
         <div class="empty-icon">📋</div>
-        <h2>No Children Yet</h2>
-        <p>Ask the admin to add children and their gift lists</p>
-        <a href="{{ url_for('admin') }}" class="btn btn-primary">Go to Admin</a>
+        <h2>Zatiaľ Žiadne Deti</h2>
+        <p>Požiadajte správcu, aby pridal deti a ich zoznamy darčekov</p>
+        <a href="{{ url_for('admin') }}" class="btn btn-primary">Prejsť na Správu</a>
     </div>
 {% endif %}
 {% endblock %}

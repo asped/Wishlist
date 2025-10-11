@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 
-{% block title %}{% if gift %}Edit Gift{% else %}Add Gift{% endif %} for {{ child.name }}{% endblock %}
+{% block title %}{% if gift %}Upraviť Darček{% else %}Pridať Darček{% endif %} pre {{ child.name }}{% endblock %}
 
 {% block content %}
 <div class="page-header">
-    <a href="{{ url_for('admin_child_gifts', child_id=child.id) }}" class="back-link">← Back to {{ child.name }}'s Gifts</a>
-    <h1 class="page-title">{% if gift %}Edit Gift{% else %}Add New Gift{% endif %} for {{ child.name }}</h1>
+    <a href="{{ url_for('admin_child_gifts', child_id=child.id) }}" class="back-link">← Späť na Darceky {{ child.name }}</a>
+    <h1 class="page-title">{% if gift %}Upraviť Darček{% else %}Pridať Nový Darček{% endif %} pre {{ child.name }}</h1>
 </div>
 
 <div class="form-container">
@@ -15,39 +15,61 @@
         {% endif %}
 
         <div class="form-group">
-            <label for="name" class="form-label">Gift Name *</label>
+            <label for="name" class="form-label">Názov Darčeka *</label>
             <input type="text" 
                    id="name" 
                    name="name" 
                    class="form-input" 
                    value="{% if gift %}{{ gift.name }}{% endif %}"
-                   placeholder="e.g., LEGO Space Station"
+                   placeholder="napr. LEGO Vesmirna Stanica"
                    required>
         </div>
 
         <div class="form-group">
-            <label for="description" class="form-label">Description (optional)</label>
+            <label for="description" class="form-label">Popis (voliteľné)</label>
             <textarea id="description" 
                       name="description" 
                       class="form-textarea" 
                       rows="4"
-                      placeholder="Add details about the gift, size, color, etc.">{% if gift %}{{ gift.description }}{% endif %}</textarea>
+                      placeholder="Pridajte detaily o darčeku, veľkosť, farbu, atď.">{% if gift %}{{ gift.description }}{% endif %}</textarea>
         </div>
 
         <div class="form-group">
-            <label for="link" class="form-label">Link (optional)</label>
+            <label for="link" class="form-label">Odkaz (voliteľné)</label>
             <input type="url" 
                    id="link" 
                    name="link" 
                    class="form-input" 
                    value="{% if gift %}{{ gift.link }}{% endif %}"
-                   placeholder="https://example.com/product">
-            <p class="form-help">Add a link to where the gift can be purchased</p>
+                   placeholder="https://priklad.sk/produkt">
+            <p class="form-help">Pridajte odkaz na miesto, kde možno darček kúpiť</p>
+        </div>
+
+        <div class="form-group">
+            <label for="image_url" class="form-label">URL Obrázka (voliteľné)</label>
+            <input type="url" 
+                   id="image_url" 
+                   name="image_url" 
+                   class="form-input" 
+                   value="{% if gift %}{{ gift.image_url }}{% endif %}"
+                   placeholder="https://priklad.sk/obrazok.jpg">
+            <p class="form-help">Pridajte odkaz na obrázok darčeka</p>
+        </div>
+
+        <div class="form-group">
+            <label for="price_range" class="form-label">Cenové Rozpätie (voliteľné)</label>
+            <input type="text" 
+                   id="price_range" 
+                   name="price_range" 
+                   class="form-input" 
+                   value="{% if gift %}{{ gift.price_range }}{% endif %}"
+                   placeholder="napr. €20-30 alebo približne €50">
+            <p class="form-help">Pridajte približnú cenu alebo cenové rozpätie darčeka</p>
         </div>
 
         <div class="form-actions">
-            <button type="submit" class="btn btn-primary">{% if gift %}Update Gift{% else %}Add Gift{% endif %}</button>
-            <a href="{{ url_for('admin_child_gifts', child_id=child.id) }}" class="btn btn-secondary">Cancel</a>
+            <button type="submit" class="btn btn-primary">{% if gift %}Aktualizovať Darček{% else %}Pridať Darček{% endif %}</button>
+            <a href="{{ url_for('admin_child_gifts', child_id=child.id) }}" class="btn btn-secondary">Zrušiť</a>
         </div>
     </form>
 </div>
