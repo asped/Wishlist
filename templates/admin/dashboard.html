@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">Admin Dashboard</h1>
+    <a href="{{ url_for('admin_add_child') }}" class="btn btn-primary">+ Add New Child</a>
+</div>
+
+{% if children %}
+    <div class="admin-table">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Child Name</th>
+                    <th>Age</th>
+                    <th>Total Gifts</th>
+                    <th>Available</th>
+                    <th>Purchased</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for child in children %}
+                <tr>
+                    <td class="child-name-cell">{{ child.name }}</td>
+                    <td>{% if child.age %}{{ child.age }}{% else %}-{% endif %}</td>
+                    <td>{{ child.gifts | length }}</td>
+                    <td class="available-cell">{{ child.gifts | selectattr('is_purchased', 'equalto', False) | list | length }}</td>
+                    <td class="purchased-cell">{{ child.gifts | selectattr('is_purchased', 'equalto', True) | list | length }}</td>
+                    <td class="actions-cell">
+                        <a href="{{ url_for('admin_child_gifts', child_id=child.id) }}" class="btn btn-small btn-info">Manage Gifts</a>
+                        <a href="{{ url_for('admin_edit_child', child_id=child.id) }}" class="btn btn-small btn-secondary">Edit</a>
+                        <form method="POST" action="{{ url_for('admin_delete_child', child_id=child.id) }}" style="display: inline;" onsubmit="return confirm('Delete {{ child.name }} and all their gifts?');">
+                            <button type="submit" class="btn btn-small btn-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    <div class="empty-state">
+        <div class="empty-icon">👶</div>
+        <h2>No Children Yet</h2>
+        <p>Add your first child to start managing gift lists</p>
+        <a href="{{ url_for('admin_add_child') }}" class="btn btn-primary">+ Add Child</a>
+    </div>
+{% endif %}
+{% endblock %}

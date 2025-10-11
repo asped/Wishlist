@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block title %}{{ child.name }}'s Gift List{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <a href="{{ url_for('index') }}" class="back-link">← Back to All Children</a>
+    <h1 class="page-title">{{ child.name }}'s Gift List</h1>
+    {% if child.age %}
+    <p class="page-subtitle">Age {{ child.age }}</p>
+    {% endif %}
+</div>
+
+{% if child.gifts %}
+    <div class="gifts-list">
+        {% for gift in child.gifts %}
+        <div class="gift-card {% if gift.is_purchased %}gift-purchased{% endif %}">
+            <div class="gift-header">
+                <h2 class="gift-name">{{ gift.name }}</h2>
+                <div class="gift-status">
+                    {% if gift.is_purchased %}
+                        <span class="status-badge status-purchased">✓ PURCHASED</span>
+                    {% else %}
+                        <span class="status-badge status-available">AVAILABLE</span>
+                    {% endif %}
+                </div>
+            </div>
+
+            {% if gift.description %}
+            <p class="gift-description">{{ gift.description }}</p>
+            {% endif %}
+
+            {% if gift.link %}
+            <div class="gift-link">
+                <a href="{{ gift.link }}" target="_blank" class="btn-link">🔗 View Online</a>
+            </div>
+            {% endif %}
+
+            <div class="gift-actions">
+                {% if gift.is_purchased %}
+                    <div class="purchased-info">
+                        <p class="purchased-by">Purchased by: <strong>{{ gift.purchased_by }}</strong></p>
+                        <form method="POST" action="{{ url_for('unmark_gift', gift_id=gift.id) }}" class="inline-form" onsubmit="return confirm('Are you sure you want to unmark this gift?');">
+                            <button type="submit" class="btn btn-secondary">Undo Purchase</button>
+                        </form>
+                    </div>
+                {% else %}
+                    <form method="POST" action="{{ url_for('purchase_gift', gift_id=gift.id) }}" class="purchase-form" onsubmit="return confirmPurchase(this);">
+                        <label for="buyer_name_{{ gift.id }}" class="form-label">Your Name:</label>
+                        <input type="text" 
+                               id="buyer_name_{{ gift.id }}" 
+                               name="buyer_name" 
+                               class="form-input" 
+                               placeholder="Enter your name"
+                               required>
+                        <button type="submit" class="btn btn-success">I Will Buy This Gift</button>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="empty-state">
+        <div class="empty-icon">🎁</div>
+        <h2>No Gifts Yet</h2>
+        <p>This child's gift list is empty</p>
+    </div>
+{% endif %}
+
+<script>
+function confirmPurchase(form) {
+    const nameInput = form.querySelector('input[name="buyer_name"]');
+    const name = nameInput.value.trim();
+    
+    if (!name) {
+        alert('Please enter your name');
+        return false;
+    }
+    
+    return confirm('Are you sure you want to mark this gift as purchased by ' + name + '?');
+}
+</script>
+{% endblock %}
