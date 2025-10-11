@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 
-{% block title %}{{ child.name }}'s Gift List{% endblock %}
+{% block title %}Zoznam Darčekov - {{ child.name }}{% endblock %}
 
 {% block content %}
 <div class="page-header">
-    <a href="{{ url_for('index') }}" class="back-link">← Back to All Children</a>
-    <h1 class="page-title">{{ child.name }}'s Gift List</h1>
+    <a href="{{ url_for('index') }}" class="back-link">← Späť na Všetky Deti</a>
+    <h1 class="page-title">Zoznam Darčekov - {{ child.name }}</h1>
     {% if child.age %}
-    <p class="page-subtitle">Age {{ child.age }}</p>
+    <p class="page-subtitle">Vek {{ child.age }}</p>
     {% endif %}
 </div>
 
@@ -19,41 +19,51 @@
                 <h2 class="gift-name">{{ gift.name }}</h2>
                 <div class="gift-status">
                     {% if gift.is_purchased %}
-                        <span class="status-badge status-purchased">✓ PURCHASED</span>
+                        <span class="status-badge status-purchased">✓ KÚPENÉ</span>
                     {% else %}
-                        <span class="status-badge status-available">AVAILABLE</span>
+                        <span class="status-badge status-available">DOSTUPNÉ</span>
                     {% endif %}
                 </div>
             </div>
+
+            {% if gift.image_url %}
+            <div class="gift-image-container">
+                <img src="{{ gift.image_url }}" alt="{{ gift.name }}" class="gift-image" onerror="this.style.display='none'">
+            </div>
+            {% endif %}
 
             {% if gift.description %}
             <p class="gift-description">{{ gift.description }}</p>
             {% endif %}
 
+            {% if gift.price_range %}
+            <p class="gift-price"><strong>Cena:</strong> {{ gift.price_range }}</p>
+            {% endif %}
+
             {% if gift.link %}
             <div class="gift-link">
-                <a href="{{ gift.link }}" target="_blank" class="btn-link">🔗 View Online</a>
+                <a href="{{ gift.link }}" target="_blank" class="btn-link">🔗 Zobraziť Online</a>
             </div>
             {% endif %}
 
             <div class="gift-actions">
                 {% if gift.is_purchased %}
                     <div class="purchased-info">
-                        <p class="purchased-by">Purchased by: <strong>{{ gift.purchased_by }}</strong></p>
-                        <form method="POST" action="{{ url_for('unmark_gift', gift_id=gift.id) }}" class="inline-form" onsubmit="return confirm('Are you sure you want to unmark this gift?');">
-                            <button type="submit" class="btn btn-secondary">Undo Purchase</button>
+                        <p class="purchased-by">Kúpil/a: <strong>{{ gift.purchased_by }}</strong></p>
+                        <form method="POST" action="{{ url_for('unmark_gift', gift_id=gift.id) }}" class="inline-form" onsubmit="return confirm('Ste si istí, že chcete zrušiť označenie tohto darčeka?');">
+                            <button type="submit" class="btn btn-secondary">Zrušiť Nákup</button>
                         </form>
                     </div>
                 {% else %}
                     <form method="POST" action="{{ url_for('purchase_gift', gift_id=gift.id) }}" class="purchase-form" onsubmit="return confirmPurchase(this);">
-                        <label for="buyer_name_{{ gift.id }}" class="form-label">Your Name:</label>
+                        <label for="buyer_name_{{ gift.id }}" class="form-label">Vaše Meno:</label>
                         <input type="text" 
                                id="buyer_name_{{ gift.id }}" 
                                name="buyer_name" 
                                class="form-input" 
-                               placeholder="Enter your name"
+                               placeholder="Zadajte vaše meno"
                                required>
-                        <button type="submit" class="btn btn-success">I Will Buy This Gift</button>
+                        <button type="submit" class="btn btn-success">Kúpim Tento Darček</button>
                     </form>
                 {% endif %}
             </div>
@@ -63,8 +73,8 @@
 {% else %}
     <div class="empty-state">
         <div class="empty-icon">🎁</div>
-        <h2>No Gifts Yet</h2>
-        <p>This child's gift list is empty</p>
+        <h2>Zatiaľ Žiadne Darceky</h2>
+        <p>Zoznam darčekov tohto dieťaťa je prázdny</p>
     </div>
 {% endif %}
 
@@ -74,11 +84,11 @@ function confirmPurchase(form) {
     const name = nameInput.value.trim();
     
     if (!name) {
-        alert('Please enter your name');
+        alert('Prosím, zadajte vaše meno');
         return false;
     }
     
-    return confirm('Are you sure you want to mark this gift as purchased by ' + name + '?');
+    return confirm('Ste si istí, že chcete označiť tento darček ako kúpený užívateľom ' + name + '?');
 }
 </script>
 {% endblock %}

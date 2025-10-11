@@ -26,6 +26,8 @@ class Gift(db.Model):
     name = db.Column(db.String(200), nullable=False)
     description = db.Column(db.Text)
     link = db.Column(db.String(500))
+    image_url = db.Column(db.String(500))
+    price_range = db.Column(db.String(100))
     is_purchased = db.Column(db.Boolean, default=False)
     purchased_by = db.Column(db.String(100))
     child_id = db.Column(db.Integer, db.ForeignKey('child.id'), nullable=False)
@@ -144,10 +146,15 @@ def admin_add_gift(child_id):
         if not name:
             return render_template('admin/gift_form.html', child=child, error='Gift name is required')
         
+        image_url = request.form.get('image_url', '').strip()
+        price_range = request.form.get('price_range', '').strip()
+        
         gift = Gift(
             name=name,
             description=description,
             link=link,
+            image_url=image_url,
+            price_range=price_range,
             child_id=child_id
         )
         db.session.add(gift)
@@ -166,6 +173,8 @@ def admin_edit_gift(gift_id):
         gift.name = request.form.get('name', '').strip()
         gift.description = request.form.get('description', '').strip()
         gift.link = request.form.get('link', '').strip()
+        gift.image_url = request.form.get('image_url', '').strip()
+        gift.price_range = request.form.get('price_range', '').strip()
         
         db.session.commit()
         return redirect(url_for('admin_child_gifts', child_id=gift.child_id))
