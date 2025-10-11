@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}{% if gift %}Edit Gift{% else %}Add Gift{% endif %} for {{ child.name }}{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <a href="{{ url_for('admin_child_gifts', child_id=child.id) }}" class="back-link">← Back to {{ child.name }}'s Gifts</a>
+    <h1 class="page-title">{% if gift %}Edit Gift{% else %}Add New Gift{% endif %} for {{ child.name }}</h1>
+</div>
+
+<div class="form-container">
+    <form method="POST" class="form">
+        {% if error %}
+        <div class="alert alert-error">{{ error }}</div>
+        {% endif %}
+
+        <div class="form-group">
+            <label for="name" class="form-label">Gift Name *</label>
+            <input type="text" 
+                   id="name" 
+                   name="name" 
+                   class="form-input" 
+                   value="{% if gift %}{{ gift.name }}{% endif %}"
+                   placeholder="e.g., LEGO Space Station"
+                   required>
+        </div>
+
+        <div class="form-group">
+            <label for="description" class="form-label">Description (optional)</label>
+            <textarea id="description" 
+                      name="description" 
+                      class="form-textarea" 
+                      rows="4"
+                      placeholder="Add details about the gift, size, color, etc.">{% if gift %}{{ gift.description }}{% endif %}</textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="link" class="form-label">Link (optional)</label>
+            <input type="url" 
+                   id="link" 
+                   name="link" 
+                   class="form-input" 
+                   value="{% if gift %}{{ gift.link }}{% endif %}"
+                   placeholder="https://example.com/product">
+            <p class="form-help">Add a link to where the gift can be purchased</p>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">{% if gift %}Update Gift{% else %}Add Gift{% endif %}</button>
+            <a href="{{ url_for('admin_child_gifts', child_id=child.id) }}" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

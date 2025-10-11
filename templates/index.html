@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}Gift Lists - Family Gift List{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">Choose a Child to See Their Gift List</h1>
+    <p class="page-subtitle">Click on a name to see what gifts they would like</p>
+</div>
+
+{% if children %}
+    <div class="children-grid">
+        {% for child in children %}
+        <a href="{{ url_for('child_gifts', child_id=child.id) }}" class="child-card">
+            <div class="child-avatar">{{ child.name[0].upper() }}</div>
+            <h2 class="child-name">{{ child.name }}</h2>
+            {% if child.age %}
+            <p class="child-age">Age {{ child.age }}</p>
+            {% endif %}
+            <div class="gift-counts">
+                {% set available = child.gifts | selectattr('is_purchased', 'equalto', False) | list | length %}
+                {% set purchased = child.gifts | selectattr('is_purchased', 'equalto', True) | list | length %}
+                <span class="badge badge-available">{{ available }} Available</span>
+                <span class="badge badge-purchased">{{ purchased }} Purchased</span>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="empty-state">
+        <div class="empty-icon">📋</div>
+        <h2>No Children Yet</h2>
+        <p>Ask the admin to add children and their gift lists</p>
+        <a href="{{ url_for('admin') }}" class="btn btn-primary">Go to Admin</a>
+    </div>
+{% endif %}
+{% endblock %}
