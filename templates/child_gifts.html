@@ -4,7 +4,10 @@
 
 {% block content %}
 <div class="page-header">
-    <a href="{{ url_for('index') }}" class="back-link">← Späť na Všetky Deti</a>
+    <div class="header-actions">
+        <a href="{{ url_for('index') }}" class="btn btn-secondary back-btn">← Späť na Všetky Deti</a>
+        <a href="{{ url_for('logout') }}" class="btn btn-danger logout-btn">Odhlásiť sa</a>
+    </div>
     <h1 class="page-title">Zoznam Darčekov - {{ child.name }}</h1>
     {% if child.age %}
     <p class="page-subtitle">Vek {{ child.age }}</p>
@@ -38,7 +41,7 @@
                 <h3 class="gift-tile-name">{{ gift.name }}</h3>
                 
                 {% if gift.price_range %}
-                <p class="gift-tile-price"><strong>Cena:</strong> {{ gift.price_range }}</p>
+                <p class="gift-tile-price"><strong>Cena:</strong> {{ gift.price_range }} {{ gift.currency }}</p>
                 {% endif %}
             </div>
             
@@ -54,12 +57,18 @@
                 {% endif %}
 
                 {% if gift.price_range %}
-                <p class="gift-price"><strong>Cena:</strong> {{ gift.price_range }}</p>
+                <p class="gift-price"><strong>Cena:</strong> {{ gift.price_range }} {{ gift.currency }}</p>
                 {% endif %}
 
                 {% if gift.link %}
                 <div class="gift-link">
                     <a href="{{ gift.link }}" target="_blank" class="btn-link">🔗 Zobraziť Online</a>
+                </div>
+                {% endif %}
+
+                {% if gift.link2 %}
+                <div class="gift-link">
+                    <a href="{{ gift.link2 }}" target="_blank" class="btn-link">🔗 Alternatívny Odkaz</a>
                 </div>
                 {% endif %}
 

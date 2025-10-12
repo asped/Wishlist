@@ -70,6 +70,14 @@ body {
     background-color: #c0392b;
 }
 
+.logout-link {
+    background-color: #95a5a6;
+}
+
+.logout-link:hover {
+    background-color: #7f8c8d;
+}
+
 /* Main Content */
 main {
     flex: 1;
@@ -82,6 +90,21 @@ main {
     text-align: center;
 }
 
+.header-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 15px;
+}
+
+.back-btn, .logout-btn {
+    font-size: 18px;
+    padding: 12px 20px;
+    text-decoration: none;
+    display: inline-block;
+}
+
 .page-title {
     font-size: 42px;
     color: #2c3e50;
@@ -91,19 +114,6 @@ main {
 .page-subtitle {
     font-size: 24px;
     color: #7f8c8d;
-}
-
-.back-link {
-    display: inline-block;
-    font-size: 22px;
-    color: #3498db;
-    text-decoration: none;
-    margin-bottom: 20px;
-    font-weight: bold;
-}
-
-.back-link:hover {
-    text-decoration: underline;
 }
 
 /* Children Grid */
@@ -616,6 +626,21 @@ main {
     color: #7f8c8d;
 }
 
+.price-input-group {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.price-input {
+    flex: 1;
+}
+
+.currency-select {
+    width: 80px;
+    min-width: 80px;
+}
+
 .form-actions {
     display: flex;
     gap: 15px;
@@ -908,6 +933,25 @@ main {
     }
     
     .modal-footer .btn {
+        width: 100%;
+    }
+    
+    .header-actions {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .back-btn, .logout-btn {
+        width: 100%;
+        text-align: center;
+    }
+    
+    .price-input-group {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .currency-select {
         width: 100%;
     }
 }
