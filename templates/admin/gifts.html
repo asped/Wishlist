@@ -4,7 +4,7 @@
 
 {% block content %}
 <div class="page-header">
-    <a href="{{ url_for('admin') }}" class="back-link">← Späť na Správny Panel</a>
+    <a href="{{ url_for('admin_dashboard') }}" class="back-link">← Späť na Správny Panel</a>
     <h1 class="page-title">Spravovať Darceky pre {{ child.name }}</h1>
     <a href="{{ url_for('admin_add_gift', child_id=child.id) }}" class="btn btn-primary">+ Pridať Darček</a>
 </div>
