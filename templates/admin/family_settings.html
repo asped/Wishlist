@@ -1,0 +1,155 @@
+{% extends "base.html" %}
+
+{% block title %}Nastavenia rodiny - Správny Panel{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">⚙️ Nastavenia rodiny</h1>
+    <p class="page-subtitle">Zmeniť rodinné heslo</p>
+</div>
+
+<div class="form-container">
+    <form method="POST" class="form">
+        {{ form.hidden_tag() }}
+        
+        <div class="form-group">
+            {{ form.password.label(class="form-label") }}
+            {{ form.password(class="form-input", placeholder="Nové rodinné heslo", required=true, autofocus=true) }}
+            {% if form.password.errors %}
+                <div class="form-errors">
+                    {% for error in form.password.errors %}
+                        <span class="error">{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            {{ form.confirm_password.label(class="form-label") }}
+            {{ form.confirm_password(class="form-input", placeholder="Potvrdiť nové heslo", required=true) }}
+            {% if form.confirm_password.errors %}
+                <div class="form-errors">
+                    {% for error in form.confirm_password.errors %}
+                        <span class="error">{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        
+        <div class="form-actions">
+            {{ form.submit(class="btn btn-primary btn-large") }}
+            <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary">Späť</a>
+        </div>
+    </form>
+</div>
+
+<div class="info-box">
+    <h3>ℹ️ Informácie</h3>
+    <ul>
+        <li>Rodinné heslo používajú členovia rodiny na prístup k zoznamu darčekov</li>
+        <li>Heslo musí byť jedinečné - každá rodina má svoje vlastné heslo</li>
+        <li>Po zmene hesla budú musieť všetci členovia rodiny používať nové heslo</li>
+    </ul>
+</div>
+
+<style>
+.form-container {
+    max-width: 500px;
+    margin: 0 auto 40px;
+    background: white;
+    border-radius: 15px;
+    padding: 40px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-label {
+    font-size: 18px;
+    font-weight: bold;
+    color: #2c3e50;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.form-input {
+    width: 100%;
+    padding: 15px;
+    font-size: 16px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #3498db;
+}
+
+.form-errors {
+    margin-top: 5px;
+}
+
+.error {
+    color: #e74c3c;
+    font-size: 14px;
+}
+
+.btn-large {
+    padding: 18px 30px;
+    font-size: 20px;
+    margin-right: 10px;
+}
+
+.form-actions {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.info-box {
+    max-width: 500px;
+    margin: 0 auto;
+    background: #f8f9fa;
+    border-radius: 15px;
+    padding: 30px;
+    border-left: 4px solid #3498db;
+}
+
+.info-box h3 {
+    color: #2c3e50;
+    margin-bottom: 15px;
+}
+
+.info-box ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.info-box li {
+    margin-bottom: 10px;
+    color: #555;
+}
+
+@media (max-width: 768px) {
+    .form-container {
+        padding: 30px 20px;
+    }
+    
+    .form-label {
+        font-size: 16px;
+    }
+    
+    .form-input {
+        font-size: 16px;
+    }
+    
+    .btn-large {
+        font-size: 18px;
+        width: 100%;
+        margin-bottom: 10px;
+    }
+}
+</style>
+{% endblock %}

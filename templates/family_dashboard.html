@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Zoznamy Darčekov - Rodinný Zoznam Darčekov{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">Vyberte Dieťa, Aby Ste Videli Jeho Zoznam Darčekov</h1>
+    <p class="page-subtitle">Kliknite na meno, aby ste videli, aké darceky by chceli</p>
+</div>
+
+{% if children %}
+    <div class="children-grid">
+        {% for child in children %}
+        <a href="{{ url_for('child_gifts', child_id=child.id) }}" class="child-card">
+            <div class="child-avatar">{{ child.name[0].upper() }}</div>
+            <h2 class="child-name">{{ child.name }}</h2>
+            {% if child.age %}
+            <p class="child-age">Vek {{ child.age }}</p>
+            {% endif %}
+            <div class="gift-counts">
+                {% set available = child.gifts | selectattr('is_purchased', 'equalto', False) | list | length %}
+                {% set purchased = child.gifts | selectattr('is_purchased', 'equalto', True) | list | length %}
+                <span class="badge badge-available">{{ available }} Dostupných</span>
+                <span class="badge badge-purchased">{{ purchased }} Kúpených</span>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="empty-state">
+        <div class="empty-icon">📋</div>
+        <h2>Zatiaľ Žiadne Deti</h2>
+        <p>Požiadajte správcu, aby pridal deti a ich zoznamy darčekov</p>
+        {% if session.admin_id %}
+            <a href="{{ url_for('admin_dashboard') }}" class="btn btn-primary">Prejsť na Správu</a>
+        {% endif %}
+    </div>
+{% endif %}
+{% endblock %}
