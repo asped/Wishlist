@@ -56,7 +56,7 @@
                     <tr>
                         <td>{{ family.name }}</td>
                         <td>{{ family.children|length }}</td>
-                        <td>{{ family.children|sum(attribute='gifts')|length }}</td>
+                        <td>{{ family.children|map(attribute='gifts')|map('length')|sum }}</td>
                         <td>{{ family.admin_users|length }}</td>
                         <td>{{ family.created_at.strftime('%d.%m.%Y') }}</td>
                         <td>
