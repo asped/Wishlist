@@ -182,25 +182,208 @@ main {
     color: white;
 }
 
-/* Gift Cards */
-.gifts-list {
-    display: flex;
-    flex-direction: column;
+/* Gift Tiles */
+.gifts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 25px;
+    margin-top: 30px;
 }
 
-.gift-card {
+/* Responsive column layout */
+@media (min-width: 1200px) {
+    .gifts-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (min-width: 900px) and (max-width: 1199px) {
+    .gifts-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (min-width: 600px) and (max-width: 899px) {
+    .gifts-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 599px) {
+    .gifts-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.gift-tile {
     background: white;
     border-radius: 15px;
-    padding: 30px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     border: 3px solid #27ae60;
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 320px; /* Fixed height for equal tiles */
 }
 
-.gift-card.gift-purchased {
+.gift-tile:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+}
+
+.gift-tile.gift-purchased {
     border-color: #95a5a6;
     background-color: #f8f9fa;
     opacity: 0.85;
+}
+
+.gift-tile.expanded {
+    order: -1;
+    grid-column: 1 / -1;
+    width: 100%;
+    margin: 0 auto 30px;
+    height: auto;
+    min-height: 320px;
+    transform: scale(1.02);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+    border: 3px solid #3498db;
+    position: relative;
+}
+
+.gift-tile.expanded .gift-tile-image,
+.gift-tile.expanded .gift-tile-placeholder {
+    display: none;
+}
+
+.gift-tile.expanded .gift-tile-content {
+    padding: 20px 30px 30px;
+}
+
+.gift-tile.expanded .gift-tile-name {
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+.gift-tile.expanded .gift-tile-price {
+    font-size: 18px;
+}
+
+.gift-tile.expanded .gift-tile-header {
+    position: relative;
+}
+
+.gift-tile.expanded .close-btn {
+    position: absolute;
+    top: 15px;
+    left: 20px;
+    padding: 12px 20px;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background-color: #e74c3c;
+    color: white;
+    transition: background-color 0.3s, transform 0.1s;
+}
+
+.gift-tile.expanded .close-btn:hover {
+    background-color: #c0392b;
+    transform: translateY(-2px);
+}
+
+.gift-tile.expanded .close-btn:active {
+    transform: translateY(0);
+}
+
+.gift-tile-header {
+    padding: 15px 20px 10px;
+    text-align: right;
+}
+
+.gift-tile-content {
+    flex: 1;
+    padding: 0 20px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.gift-tile-image {
+    width: 100%;
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+.gift-tile-image .gift-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.gift-tile-placeholder {
+    width: 100%;
+    height: 150px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+.gift-icon {
+    font-size: 60px;
+    color: white;
+}
+
+.gift-tile-name {
+    font-size: 20px;
+    color: #2c3e50;
+    margin-bottom: 10px;
+    font-weight: bold;
+    line-height: 1.3;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.gift-tile-price {
+    font-size: 16px;
+    color: #e74c3c;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.gift-details {
+    padding: 20px;
+    border-top: 2px solid #ecf0f1;
+    background-color: #f8f9fa;
+}
+
+.gift-details .gift-image-container {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.gift-details .gift-image {
+    max-width: 100%;
+    max-height: 300px;
+    width: auto;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    object-fit: contain;
 }
 
 .gift-header {
@@ -361,12 +544,12 @@ main {
 }
 
 .btn-secondary {
-    background-color: #95a5a6;
+    background-color: #f39c12;
     color: white;
 }
 
 .btn-secondary:hover {
-    background-color: #7f8c8d;
+    background-color: #e67e22;
 }
 
 .btn-danger {
@@ -600,4 +783,131 @@ main {
 /* Inline form for undo */
 .inline-form {
     display: inline;
+}
+
+/* Modal Styles */
+.modal {
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.3s ease;
+}
+
+.modal-content {
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    max-width: 500px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    animation: slideIn 0.3s ease;
+}
+
+.modal-header {
+    padding: 25px 30px 15px;
+    border-bottom: 2px solid #ecf0f1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header h3 {
+    font-size: 24px;
+    color: #2c3e50;
+    margin: 0;
+}
+
+.modal-close {
+    font-size: 28px;
+    font-weight: bold;
+    color: #aaa;
+    cursor: pointer;
+    line-height: 1;
+    transition: color 0.3s;
+}
+
+.modal-close:hover {
+    color: #000;
+}
+
+.modal-body {
+    padding: 20px 30px;
+}
+
+.modal-body p {
+    font-size: 18px;
+    color: #555;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.modal-footer {
+    padding: 15px 30px 25px;
+    display: flex;
+    gap: 15px;
+    justify-content: flex-end;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideIn {
+    from { 
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    to { 
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive adjustments for tiles */
+@media (max-width: 599px) {
+    .gifts-grid {
+        gap: 20px;
+    }
+    
+    .gift-tile {
+        height: 280px;
+    }
+    
+    .gift-tile-name {
+        font-size: 18px;
+    }
+    
+    .gift-tile-price {
+        font-size: 14px;
+    }
+    
+    .modal-content {
+        width: 95%;
+        margin: 20px;
+    }
+    
+    .modal-header h3 {
+        font-size: 20px;
+    }
+    
+    .modal-body p {
+        font-size: 16px;
+    }
+    
+    .modal-footer {
+        flex-direction: column;
+    }
+    
+    .modal-footer .btn {
+        width: 100%;
+    }
 }

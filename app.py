@@ -51,6 +51,9 @@ def index():
 def child_gifts(child_id):
     """View gifts for a specific child"""
     child = Child.query.get_or_404(child_id)
+    # Sort gifts: available first, then purchased
+    sorted_gifts = sorted(child.gifts, key=lambda g: (g.is_purchased, g.created_at))
+    child.gifts = sorted_gifts
     return render_template('child_gifts.html', child=child)
 
 @app.route('/gift/<int:gift_id>/purchase', methods=['POST'])
@@ -192,4 +195,4 @@ def admin_delete_gift(gift_id):
     return redirect(url_for('admin_child_gifts', child_id=child_id))
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    app.run(debug=True, host='0.0.0.0', port=5001)
