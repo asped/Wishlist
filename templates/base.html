@@ -9,15 +9,30 @@
 <body>
     <nav class="navbar">
         <div class="container">
-            <a href="{{ url_for('index') }}" class="nav-brand">🎁 Rodinný Zoznam Darčekov</a>
+            <a href="{{ url_for('family_dashboard') }}" class="nav-brand">🎁 Rodinný Zoznam Darčekov</a>
             <div class="nav-links">
-                <a href="{{ url_for('index') }}" class="nav-link">Zoznamy Darčekov</a>
-                <a href="{{ url_for('admin') }}" class="nav-link admin-link">Správa</a>
+                {% if session.family_id %}
+                    <a href="{{ url_for('family_dashboard') }}" class="nav-link">Zoznamy Darčekov</a>
+                    {% if session.admin_id %}
+                        <a href="{{ url_for('admin_dashboard') }}" class="nav-link admin-link">Správa</a>
+                    {% endif %}
+                    <a href="{{ url_for('family_logout') }}" class="nav-link logout-link">Odhlásiť sa</a>
+                {% endif %}
             </div>
         </div>
     </nav>
 
     <main class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+        
         {% block content %}{% endblock %}
     </main>
 

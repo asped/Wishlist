@@ -70,6 +70,14 @@ body {
     background-color: #c0392b;
 }
 
+.logout-link {
+    background-color: #95a5a6;
+}
+
+.logout-link:hover {
+    background-color: #7f8c8d;
+}
+
 /* Main Content */
 main {
     flex: 1;
@@ -82,6 +90,21 @@ main {
     text-align: center;
 }
 
+.header-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 15px;
+}
+
+.back-btn, .logout-btn {
+    font-size: 18px;
+    padding: 12px 20px;
+    text-decoration: none;
+    display: inline-block;
+}
+
 .page-title {
     font-size: 42px;
     color: #2c3e50;
@@ -91,19 +114,6 @@ main {
 .page-subtitle {
     font-size: 24px;
     color: #7f8c8d;
-}
-
-.back-link {
-    display: inline-block;
-    font-size: 22px;
-    color: #3498db;
-    text-decoration: none;
-    margin-bottom: 20px;
-    font-weight: bold;
-}
-
-.back-link:hover {
-    text-decoration: underline;
 }
 
 /* Children Grid */
@@ -616,6 +626,21 @@ main {
     color: #7f8c8d;
 }
 
+.price-input-group {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.price-input {
+    flex: 1;
+}
+
+.currency-select {
+    width: 80px;
+    min-width: 80px;
+}
+
 .form-actions {
     display: flex;
     gap: 15px;
@@ -872,6 +897,80 @@ main {
     }
 }
 
+/* Flash Messages */
+.flash-messages {
+    margin-bottom: 20px;
+}
+
+.alert {
+    padding: 15px 20px;
+    border-radius: 8px;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 2px solid #c3e6cb;
+}
+
+.alert-error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 2px solid #f5c6cb;
+}
+
+.alert-warning {
+    background-color: #fff3cd;
+    color: #856404;
+    border: 2px solid #ffeaa7;
+}
+
+/* Form Errors */
+.form-errors {
+    margin-top: 5px;
+}
+
+.error {
+    color: #e74c3c;
+    font-size: 14px;
+    display: block;
+}
+
+/* Admin Actions */
+.admin-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+/* Info Box */
+.info-box {
+    max-width: 500px;
+    margin: 0 auto;
+    background: #f8f9fa;
+    border-radius: 15px;
+    padding: 30px;
+    border-left: 4px solid #3498db;
+}
+
+.info-box h3 {
+    color: #2c3e50;
+    margin-bottom: 15px;
+}
+
+.info-box ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.info-box li {
+    margin-bottom: 10px;
+    color: #555;
+}
+
 /* Responsive adjustments for tiles */
 @media (max-width: 599px) {
     .gifts-grid {
@@ -909,5 +1008,28 @@ main {
     
     .modal-footer .btn {
         width: 100%;
+    }
+    
+    .header-actions {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .back-btn, .logout-btn {
+        width: 100%;
+        text-align: center;
+    }
+    
+    .price-input-group {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .currency-select {
+        width: 100%;
+    }
+    
+    .admin-actions {
+        flex-direction: column;
     }
 }

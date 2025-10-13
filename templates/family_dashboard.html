@@ -31,7 +31,9 @@
         <div class="empty-icon">📋</div>
         <h2>Zatiaľ Žiadne Deti</h2>
         <p>Požiadajte správcu, aby pridal deti a ich zoznamy darčekov</p>
-        <a href="{{ url_for('admin') }}" class="btn btn-primary">Prejsť na Správu</a>
+        {% if session.admin_id %}
+            <a href="{{ url_for('admin_dashboard') }}" class="btn btn-primary">Prejsť na Správu</a>
+        {% endif %}
     </div>
 {% endif %}
 {% endblock %}

@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+
+{% block title %}Prihlásenie - Rodinný Zoznam Darčekov{% endblock %}
+
+{% block content %}
+<div class="login-container">
+    <div class="login-form">
+        <div class="login-header">
+            <h1 class="login-title">🎁 Rodinný Zoznam Darčekov</h1>
+            <p class="login-subtitle">Zadajte heslo pre prístup</p>
+        </div>
+
+        {% if error %}
+        <div class="alert alert-error">
+            {{ error }}
+        </div>
+        {% endif %}
+
+        <form method="POST" class="form">
+            <div class="form-group">
+                <label for="password" class="form-label">Heslo:</label>
+                <input type="password" 
+                       id="password" 
+                       name="password" 
+                       class="form-input" 
+                       placeholder="Zadajte heslo"
+                       required
+                       autofocus>
+            </div>
+            
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary btn-large">Prihlásiť sa</button>
+            </div>
+        </form>
+        
+        <div class="login-help">
+            <p>Pre prístup k zoznamu darčekov zadajte rodinné heslo.</p>
+        </div>
+    </div>
+</div>
+
+<style>
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 60vh;
+    padding: 40px 20px;
+}
+
+.login-form {
+    background: white;
+    border-radius: 15px;
+    padding: 40px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    max-width: 400px;
+    width: 100%;
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.login-title {
+    font-size: 32px;
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+.login-subtitle {
+    font-size: 20px;
+    color: #7f8c8d;
+    margin-bottom: 0;
+}
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-label {
+    font-size: 22px;
+    font-weight: bold;
+    color: #2c3e50;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.form-input {
+    width: 100%;
+    padding: 15px;
+    font-size: 20px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #3498db;
+}
+
+.btn-large {
+    width: 100%;
+    padding: 18px 30px;
+    font-size: 24px;
+}
+
+.login-help {
+    text-align: center;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 2px solid #ecf0f1;
+}
+
+.login-help p {
+    font-size: 16px;
+    color: #7f8c8d;
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .login-form {
+        padding: 30px 20px;
+    }
+    
+    .login-title {
+        font-size: 28px;
+    }
+    
+    .login-subtitle {
+        font-size: 18px;
+    }
+    
+    .form-label {
+        font-size: 20px;
+    }
+    
+    .form-input {
+        font-size: 18px;
+    }
+    
+    .btn-large {
+        font-size: 22px;
+    }
+}
+</style>
+{% endblock %}

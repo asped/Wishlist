@@ -10,65 +10,89 @@
 
 <div class="form-container">
     <form method="POST" class="form">
-        {% if error %}
-        <div class="alert alert-error">{{ error }}</div>
-        {% endif %}
-
+        {{ form.hidden_tag() }}
+        
         <div class="form-group">
-            <label for="name" class="form-label">Názov Darčeka *</label>
-            <input type="text" 
-                   id="name" 
-                   name="name" 
-                   class="form-input" 
-                   value="{% if gift %}{{ gift.name }}{% endif %}"
-                   placeholder="napr. LEGO Vesmirna Stanica"
-                   required>
+            {{ form.name.label(class="form-label") }}
+            {{ form.name(class="form-input", placeholder="napr. LEGO Vesmirna Stanica", required=true) }}
+            {% if form.name.errors %}
+                <div class="form-errors">
+                    {% for error in form.name.errors %}
+                        <span class="error">{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% endif %}
         </div>
 
         <div class="form-group">
-            <label for="description" class="form-label">Popis (voliteľné)</label>
-            <textarea id="description" 
-                      name="description" 
-                      class="form-textarea" 
-                      rows="4"
-                      placeholder="Pridajte detaily o darčeku, veľkosť, farbu, atď.">{% if gift %}{{ gift.description }}{% endif %}</textarea>
+            {{ form.description.label(class="form-label") }}
+            {{ form.description(class="form-textarea", rows="4", placeholder="Pridajte detaily o darčeku, veľkosť, farbu, atď.") }}
+            {% if form.description.errors %}
+                <div class="form-errors">
+                    {% for error in form.description.errors %}
+                        <span class="error">{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% endif %}
         </div>
 
         <div class="form-group">
-            <label for="link" class="form-label">Odkaz (voliteľné)</label>
-            <input type="url" 
-                   id="link" 
-                   name="link" 
-                   class="form-input" 
-                   value="{% if gift %}{{ gift.link }}{% endif %}"
-                   placeholder="https://priklad.sk/produkt">
+            {{ form.link.label(class="form-label") }}
+            {{ form.link(class="form-input", placeholder="https://priklad.sk/produkt") }}
             <p class="form-help">Pridajte odkaz na miesto, kde možno darček kúpiť</p>
+            {% if form.link.errors %}
+                <div class="form-errors">
+                    {% for error in form.link.errors %}
+                        <span class="error">{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% endif %}
         </div>
 
         <div class="form-group">
-            <label for="image_url" class="form-label">URL Obrázka (voliteľné)</label>
-            <input type="url" 
-                   id="image_url" 
-                   name="image_url" 
-                   class="form-input" 
-                   value="{% if gift %}{{ gift.image_url }}{% endif %}"
-                   placeholder="https://priklad.sk/obrazok.jpg">
+            {{ form.link2.label(class="form-label") }}
+            {{ form.link2(class="form-input", placeholder="https://priklad.cz/produkt") }}
+            <p class="form-help">Pridajte alternatívny odkaz (napr. český/slovenský eshop)</p>
+            {% if form.link2.errors %}
+                <div class="form-errors">
+                    {% for error in form.link2.errors %}
+                        <span class="error">{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            {{ form.image_url.label(class="form-label") }}
+            {{ form.image_url(class="form-input", placeholder="https://priklad.sk/obrazok.jpg") }}
             <p class="form-help">Pridajte odkaz na obrázok darčeka</p>
+            {% if form.image_url.errors %}
+                <div class="form-errors">
+                    {% for error in form.image_url.errors %}
+                        <span class="error">{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% endif %}
         </div>
 
         <div class="form-group">
-            <label for="price_range" class="form-label">Cenové Rozpätie (voliteľné)</label>
-            <input type="text" 
-                   id="price_range" 
-                   name="price_range" 
-                   class="form-input" 
-                   value="{% if gift %}{{ gift.price_range }}{% endif %}"
-                   placeholder="napr. €20-30 alebo približne €50">
+            <label class="form-label">Cenové Rozpätie (voliteľné)</label>
+            <div class="price-input-group">
+                {{ form.price_range(class="form-input price-input", placeholder="napr. 20-30 alebo približne 50") }}
+                {{ form.currency(class="form-input currency-select") }}
+            </div>
             <p class="form-help">Pridajte približnú cenu alebo cenové rozpätie darčeka</p>
+            {% if form.price_range.errors %}
+                <div class="form-errors">
+                    {% for error in form.price_range.errors %}
+                        <span class="error">{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% endif %}
         </div>
 
         <div class="form-actions">
-            <button type="submit" class="btn btn-primary">{% if gift %}Aktualizovať Darček{% else %}Pridať Darček{% endif %}</button>
+            {{ form.submit(class="btn btn-primary") }}
             <a href="{{ url_for('admin_child_gifts', child_id=child.id) }}" class="btn btn-secondary">Zrušiť</a>
         </div>
     </form>
