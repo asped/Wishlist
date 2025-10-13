@@ -165,12 +165,58 @@ def generate_reset_token():
 
 def send_reset_email(email, token, user_type='admin'):
     try:
+        import requests
+        
         reset_url = f"{request.url_root}reset-password/{token}"
-        msg = Message(
-            'Reset hesla - Rodinný Zoznam Darčekov',
-            recipients=[email]
-        )
-        msg.body = f"""
+        
+        # Brevo API configuration
+        api_key = os.environ.get('BREVO_API_KEY')
+        sender_email = os.environ.get('BREVO_SENDER_EMAIL')
+        sender_name = os.environ.get('BREVO_SENDER_NAME', 'Wishlist App')
+        
+        if not api_key or not sender_email:
+            print("Brevo API not configured")
+            return False
+        
+        # Brevo API endpoint
+        url = "https://api.brevo.com/v3/smtp/email"
+        
+        # Headers
+        headers = {
+            "accept": "application/json",
+            "api-key": api_key,
+            "content-type": "application/json"
+        }
+        
+        # Email data
+        data = {
+            "sender": {
+                "name": sender_name,
+                "email": sender_email
+            },
+            "to": [
+                {
+                    "email": email,
+                    "name": "User"
+                }
+            ],
+            "subject": "Reset hesla - Rodinný Zoznam Darčekov",
+            "htmlContent": f"""
+            <html>
+            <body>
+                <h2>Reset hesla</h2>
+                <p>Dobrý deň,</p>
+                <p>dostali ste túto správu, pretože ste požiadali o reset hesla pre váš účet v Rodinnom Zozname Darčekov.</p>
+                <p>Pre nastavenie nového hesla kliknite na nasledujúci link:</p>
+                <p><a href="{reset_url}" style="background-color: #3498db; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Resetovať heslo</a></p>
+                <p>Tento link je platný 1 hodinu.</p>
+                <p>Ak ste nepožiadali o reset hesla, ignorujte túto správu.</p>
+                <br>
+                <p>S pozdravom,<br>Tím Rodinného Zoznamu Darčekov</p>
+            </body>
+            </html>
+            """,
+            "textContent": f"""
 Dobrý deň,
 
 dostali ste túto správu, pretože ste požiadali o reset hesla pre váš účet v Rodinnom Zozname Darčekov.
@@ -184,9 +230,18 @@ Ak ste nepožiadali o reset hesla, ignorujte túto správu.
 
 S pozdravom,
 Tím Rodinného Zoznamu Darčekov
-        """
-        mail.send(msg)
-        return True
+            """
+        }
+        
+        # Send request
+        response = requests.post(url, headers=headers, json=data)
+        
+        if response.status_code == 201:
+            return True
+        else:
+            print(f"Brevo API error: {response.status_code} - {response.text}")
+            return False
+            
     except Exception as e:
         print(f"Error sending email: {e}")
         return False
