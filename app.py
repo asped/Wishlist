@@ -316,9 +316,14 @@ def family_login():
 
 @app.route('/family-logout')
 def family_logout():
-    """Logout from family session"""
+    """Logout from all sessions (family and admin)"""
+    # Clear all session data
     session.pop('family_id', None)
     session.pop('family_name', None)
+    session.pop('admin_id', None)
+    session.pop('admin_email', None)
+    session.pop('superadmin_id', None)
+    session.pop('superadmin_email', None)
     return redirect(url_for('family_login'))
 
 @app.route('/family-dashboard')
@@ -398,7 +403,7 @@ def admin_login():
             admin.last_login = datetime.utcnow()
             db.session.commit()
             
-            return redirect(url_for('admin_dashboard'))
+            return redirect(url_for('family_dashboard'))
         else:
             flash('Nesprávne prihlasovacie údaje', 'error')
     
@@ -406,11 +411,14 @@ def admin_login():
 
 @app.route('/admin-logout')
 def admin_logout():
-    """Logout from admin session"""
-    session.pop('admin_id', None)
-    session.pop('admin_email', None)
+    """Logout from all sessions (family and admin)"""
+    # Clear all session data
     session.pop('family_id', None)
     session.pop('family_name', None)
+    session.pop('admin_id', None)
+    session.pop('admin_email', None)
+    session.pop('superadmin_id', None)
+    session.pop('superadmin_email', None)
     return redirect(url_for('family_login'))
 
 @app.route('/admin')
