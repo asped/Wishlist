@@ -80,6 +80,7 @@
                         </div>
                     {% else %}
                         <form method="POST" action="{{ url_for('purchase_gift', gift_id=gift.id) }}" class="purchase-form" onsubmit="return handlePurchase(this, {{ gift.id }}, '{{ gift.name }}');">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                             <label for="buyer_name_{{ gift.id }}" class="form-label">Vaše Meno:</label>
                             <input type="text" 
                                    id="buyer_name_{{ gift.id }}" 
@@ -223,6 +224,17 @@ function confirmAction() {
         const form = document.createElement('form');
         form.method = 'POST';
         form.action = `/gift/${currentGiftId}/unmark`;
+        
+        // Add CSRF token
+        const csrfToken = document.querySelector('meta[name=csrf-token]');
+        if (csrfToken) {
+            const csrfInput = document.createElement('input');
+            csrfInput.type = 'hidden';
+            csrfInput.name = 'csrf_token';
+            csrfInput.value = csrfToken.getAttribute('content');
+            form.appendChild(csrfInput);
+        }
+        
         document.body.appendChild(form);
         form.submit();
     }

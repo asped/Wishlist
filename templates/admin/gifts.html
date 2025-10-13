@@ -43,6 +43,7 @@
                     <td class="actions-cell">
                         <a href="{{ url_for('admin_edit_gift', gift_id=gift.id) }}" class="btn btn-small btn-secondary">Upraviť</a>
                         <form method="POST" action="{{ url_for('admin_delete_gift', gift_id=gift.id) }}" style="display: inline;" onsubmit="return confirm('Vymazať tento darček?');">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                             <button type="submit" class="btn btn-small btn-danger">Vymazať</button>
                         </form>
                     </td>
