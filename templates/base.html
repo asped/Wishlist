@@ -19,7 +19,9 @@
                     {% endif %}
                     <a href="{{ url_for('family_logout') }}" class="nav-link nav-button logout-button">Odhlásiť sa</a>
                 {% endif %}
-                <a href="{{ url_for('admin_login') }}" class="nav-link nav-button admin-button">{% if session.admin_id %}Správca{% else %}Prihlásiť sa ako Správca{% endif %}</a>
+                {% if not session.admin_id %}
+                    <a href="{{ url_for('admin_login') }}" class="nav-link nav-button admin-button">Prihlásiť sa ako Správca</a>
+                {% endif %}
             </div>
         </div>
     </nav>
