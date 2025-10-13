@@ -25,10 +25,10 @@ body {
 
 /* Navigation */
 .navbar {
-    background-color: #2c3e50;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
     padding: 20px 0;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
 .nav-brand {
@@ -42,40 +42,89 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: relative;
 }
 
 .nav-links {
     display: flex;
-    gap: 20px;
+    gap: 10px;
+    align-items: center;
 }
 
-.nav-link {
+.nav-button {
     color: white;
     text-decoration: none;
-    font-size: 20px;
-    padding: 10px 20px;
-    border-radius: 5px;
-    transition: background-color 0.3s;
-}
-
-.nav-link:hover {
+    font-size: 18px;
+    padding: 10px 16px;
+    border-radius: 8px;
+    transition: all 0.3s;
+    border: 2px solid transparent;
+    font-weight: 500;
     background-color: rgba(255,255,255,0.1);
+    backdrop-filter: blur(10px);
 }
 
-.admin-link {
-    background-color: #e74c3c;
+.nav-button:hover {
+    background-color: rgba(255,255,255,0.2);
+    border-color: rgba(255,255,255,0.3);
+    transform: translateY(-1px);
 }
 
-.admin-link:hover {
-    background-color: #c0392b;
+.admin-button {
+    background-color: rgba(231, 76, 60, 0.3);
+    border-color: rgba(231, 76, 60, 0.5);
 }
 
-.logout-link {
-    background-color: #95a5a6;
+.admin-button:hover {
+    background-color: rgba(231, 76, 60, 0.5);
+    border-color: rgba(231, 76, 60, 0.7);
 }
 
-.logout-link:hover {
-    background-color: #7f8c8d;
+.logout-button {
+    background-color: rgba(231, 76, 60, 0.3);
+    border-color: rgba(231, 76, 60, 0.5);
+}
+
+.logout-button:hover {
+    background-color: rgba(231, 76, 60, 0.5);
+    border-color: rgba(231, 76, 60, 0.7);
+}
+
+/* Mobile Navigation */
+@media (max-width: 768px) {
+    .navbar .container {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px;
+    }
+    
+    .nav-button {
+        padding: 8px 12px;
+        font-size: 16px;
+    }
+    
+    .nav-brand {
+        font-size: 24px;
+    }
+}
+
+@media (max-width: 480px) {
+    .nav-links {
+        flex-direction: column;
+        width: 100%;
+        gap: 8px;
+    }
+    
+    .nav-button {
+        width: 100%;
+        text-align: center;
+        padding: 12px 16px;
+    }
 }
 
 /* Main Content */
@@ -979,6 +1028,11 @@ main {
     
     .gift-tile {
         height: 280px;
+        margin-bottom: 20px;
+    }
+    
+    .gift-tile-content {
+        padding: 0 15px 25px;
     }
     
     .gift-tile-name {

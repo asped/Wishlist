@@ -4,10 +4,6 @@
 
 {% block content %}
 <div class="page-header">
-    <div class="header-actions">
-        <a href="{{ url_for('family_dashboard') }}" class="btn btn-secondary back-btn">← Späť na Všetky Deti</a>
-        <a href="{{ url_for('family_logout') }}" class="btn btn-danger logout-btn">Odhlásiť sa</a>
-    </div>
     <h1 class="page-title">Zoznam Darčekov - {{ child.name }}</h1>
     {% if child.age %}
     <p class="page-subtitle">Vek {{ child.age }}</p>

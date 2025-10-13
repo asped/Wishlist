@@ -13,14 +13,13 @@
             <a href="{{ url_for('family_dashboard') }}" class="nav-brand">🎁 Rodinný Zoznam Darčekov</a>
             <div class="nav-links">
                 {% if session.family_id %}
-                    <a href="{{ url_for('family_dashboard') }}" class="nav-link">Zoznamy Darčekov</a>
+                    <a href="{{ url_for('family_dashboard') }}" class="nav-link nav-button">Zoznamy Darčekov</a>
                     {% if session.admin_id %}
-                        <a href="{{ url_for('admin_dashboard') }}" class="nav-link admin-link">Správa</a>
+                        <a href="{{ url_for('admin_dashboard') }}" class="nav-link nav-button admin-button">Správa</a>
                     {% endif %}
-                    <a href="{{ url_for('family_logout') }}" class="nav-link logout-link">Odhlásiť sa</a>
-                {% else %}
-                    <a href="{{ url_for('admin_login') }}" class="nav-link admin-link">Prihlásiť sa ako Správca</a>
+                    <a href="{{ url_for('family_logout') }}" class="nav-link nav-button logout-button">Odhlásiť sa</a>
                 {% endif %}
+                <a href="{{ url_for('admin_login') }}" class="nav-link nav-button admin-button">{% if session.admin_id %}Správca{% else %}Prihlásiť sa ako Správca{% endif %}</a>
             </div>
         </div>
     </nav>
