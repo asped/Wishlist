@@ -60,10 +60,13 @@
                         <td>{{ family.admin_users|length }}</td>
                         <td>{{ family.created_at.strftime('%d.%m.%Y') }}</td>
                         <td>
+                            <a href="{{ url_for('superadmin_family_admins', family_id=family.id) }}" class="btn btn-small btn-info">Správcovia</a>
                             <form method="POST" action="{{ url_for('superadmin_reset_family_password', family_id=family.id) }}" style="display: inline;">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                                 <button type="submit" class="btn btn-small btn-warning" onclick="return confirm('Naozaj chcete resetovať heslo tejto rodiny?')">Reset hesla</button>
                             </form>
                             <form method="POST" action="{{ url_for('superadmin_delete_family', family_id=family.id) }}" style="display: inline;">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                                 <button type="submit" class="btn btn-small btn-danger" onclick="return confirm('Naozaj chcete deaktivovať túto rodinu?')">Deaktivovať</button>
                             </form>
                         </td>

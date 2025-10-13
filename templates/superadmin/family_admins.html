@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+
+{% block title %}Správcovia rodiny {{ family.name }} - SuperAdmin{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div class="header-actions">
+        <a href="{{ url_for('superadmin_dashboard') }}" class="btn btn-secondary back-btn">← Späť na Dashboard</a>
+        <a href="{{ url_for('superadmin_logout') }}" class="btn btn-danger logout-btn">Odhlásiť sa</a>
+    </div>
+    <h1 class="page-title">👤 Správcovia rodiny {{ family.name }}</h1>
+    <p class="page-subtitle">Správa správcovských účtov</p>
+</div>
+
+<div class="admin-actions">
+    <a href="{{ url_for('superadmin_add_family_admin', family_id=family.id) }}" class="btn btn-primary">➕ Pridať nového správcu</a>
+</div>
+
+{% if admins %}
+    <div class="admins-table">
+        <table>
+            <thead>
+                <tr>
+                    <th>Email</th>
+                    <th>Stav</th>
+                    <th>Vytvorené</th>
+                    <th>Akcie</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for admin in admins %}
+                <tr>
+                    <td>{{ admin.email }}</td>
+                    <td>
+                        {% if admin.is_active %}
+                            <span class="status-badge status-active">Aktívny</span>
+                        {% else %}
+                            <span class="status-badge status-inactive">Neaktívny</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ admin.created_at.strftime('%d.%m.%Y %H:%M') if admin.created_at else '-' }}</td>
+                    <td class="actions-cell">
+                        <a href="{{ url_for('superadmin_edit_family_admin', admin_id=admin.id) }}" class="btn btn-small btn-secondary">Upraviť</a>
+                        {% if admin.is_active %}
+                            <form method="POST" action="{{ url_for('superadmin_delete_family_admin', admin_id=admin.id) }}" style="display: inline;" onsubmit="return confirm('Naozaj chcete odstrániť správcu {{ admin.email }}?');">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                                <button type="submit" class="btn btn-small btn-danger">Odstrániť</button>
+                            </form>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    <div class="empty-state">
+        <div class="empty-icon">👤</div>
+        <h2>Žiadni správcovia</h2>
+        <p>Táto rodina zatiaľ nemá žiadnych správcov</p>
+        <a href="{{ url_for('superadmin_add_family_admin', family_id=family.id) }}" class="btn btn-primary">Pridať prvého správcu</a>
+    </div>
+{% endif %}
+
+<style>
+.admin-actions {
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.admins-table {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.admins-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.admins-table th,
+.admins-table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #ecf0f1;
+}
+
+.admins-table th {
+    background: #f8f9fa;
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+.admins-table tr:hover {
+    background: #f8f9fa;
+}
+
+.status-badge {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.status-active {
+    background: #d4edda;
+    color: #155724;
+}
+
+.status-inactive {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.btn-small {
+    padding: 5px 10px;
+    font-size: 12px;
+    margin: 2px;
+}
+
+.btn-secondary {
+    background: #6c757d;
+    color: white;
+}
+
+.btn-danger {
+    background: #e74c3c;
+    color: white;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.empty-icon {
+    font-size: 64px;
+    margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+    .admins-table {
+        overflow-x: auto;
+    }
+    
+    .admins-table table {
+        min-width: 500px;
+    }
+}
+</style>
+{% endblock %}

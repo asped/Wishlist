@@ -32,6 +32,7 @@
         
         <div class="login-help">
             <p>Pre prístup k zoznamu darčekov zadajte rodinné heslo.</p>
+            <p><a href="{{ url_for('admin_login') }}" class="admin-login-link">Prihlásiť sa ako Správca</a></p>
             <p><a href="{{ url_for('reset_password_request') }}" class="reset-link">Zabudli ste heslo správcu?</a></p>
         </div>
     </div>
@@ -132,6 +133,16 @@
 }
 
 .reset-link:hover {
+    text-decoration: underline;
+}
+
+.admin-login-link {
+    color: #e74c3c;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.admin-login-link:hover {
     text-decoration: underline;
 }
 

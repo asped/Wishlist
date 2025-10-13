@@ -18,6 +18,8 @@
                         <a href="{{ url_for('admin_dashboard') }}" class="nav-link admin-link">Správa</a>
                     {% endif %}
                     <a href="{{ url_for('family_logout') }}" class="nav-link logout-link">Odhlásiť sa</a>
+                {% else %}
+                    <a href="{{ url_for('admin_login') }}" class="nav-link admin-link">Prihlásiť sa ako Správca</a>
                 {% endif %}
             </div>
         </div>

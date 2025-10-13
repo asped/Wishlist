@@ -153,6 +153,11 @@ class FamilyForm(FlaskForm):
     admin_password = PasswordField('Heslo správcu', validators=[DataRequired(), Length(min=6)])
     submit = SubmitField('Vytvoriť rodinu')
 
+class AdminUserForm(FlaskForm):
+    email = EmailField('Email', validators=[DataRequired(), Email()])
+    password = PasswordField('Heslo', validators=[Length(min=6)])
+    submit = SubmitField('Uložiť')
+
 # Utility functions
 def hash_password(password):
     return bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
@@ -753,6 +758,95 @@ def superadmin_delete_family(family_id):
     
     flash('Rodina bola deaktivovaná', 'success')
     return redirect(url_for('superadmin_dashboard'))
+
+@app.route('/superadmin/family/<int:family_id>/admins')
+@require_superadmin_auth
+def superadmin_family_admins(family_id):
+    """View and manage family admins"""
+    family = Family.query.get_or_404(family_id)
+    admins = AdminUser.query.filter_by(family_id=family_id).all()
+    return render_template('superadmin/family_admins.html', family=family, admins=admins)
+
+@app.route('/superadmin/family/<int:family_id>/admin/add', methods=['GET', 'POST'])
+@require_superadmin_auth
+def superadmin_add_family_admin(family_id):
+    """Add new admin to family"""
+    family = Family.query.get_or_404(family_id)
+    
+    form = AdminUserForm()
+    if form.validate_on_submit():
+        email = form.email.data.strip().lower()
+        password = form.password.data
+        
+        # Check if email already exists
+        existing_admin = AdminUser.query.filter_by(email=email).first()
+        if existing_admin:
+            flash('Tento email už používa iný správca', 'error')
+            return render_template('superadmin/admin_form.html', form=form, family=family)
+        
+        # Create admin user
+        admin = AdminUser(
+            email=email,
+            password_hash=hash_password(password),
+            family_id=family_id
+        )
+        db.session.add(admin)
+        db.session.commit()
+        
+        flash('Správca bol úspešne pridaný', 'success')
+        return redirect(url_for('superadmin_family_admins', family_id=family_id))
+    
+    return render_template('superadmin/admin_form.html', form=form, family=family)
+
+@app.route('/superadmin/admin/<int:admin_id>/edit', methods=['GET', 'POST'])
+@require_superadmin_auth
+def superadmin_edit_family_admin(admin_id):
+    """Edit family admin"""
+    admin = AdminUser.query.get_or_404(admin_id)
+    family = admin.family
+    
+    form = AdminUserForm(obj=admin)
+    if form.validate_on_submit():
+        email = form.email.data.strip().lower()
+        password = form.password.data
+        
+        # Check if email already exists (excluding current admin)
+        existing_admin = AdminUser.query.filter(
+            AdminUser.email == email,
+            AdminUser.id != admin_id
+        ).first()
+        if existing_admin:
+            flash('Tento email už používa iný správca', 'error')
+            return render_template('superadmin/admin_form.html', form=form, family=family, admin=admin)
+        
+        # Update admin
+        admin.email = email
+        if password:  # Only update password if provided
+            admin.password_hash = hash_password(password)
+        
+        db.session.commit()
+        flash('Správca bol úspešne upravený', 'success')
+        return redirect(url_for('superadmin_family_admins', family_id=family.id))
+    
+    return render_template('superadmin/admin_form.html', form=form, family=family, admin=admin)
+
+@app.route('/superadmin/admin/<int:admin_id>/delete', methods=['POST'])
+@require_superadmin_auth
+def superadmin_delete_family_admin(admin_id):
+    """Delete family admin"""
+    admin = AdminUser.query.get_or_404(admin_id)
+    family_id = admin.family_id
+    
+    # Don't allow deleting the last admin
+    admin_count = AdminUser.query.filter_by(family_id=family_id, is_active=True).count()
+    if admin_count <= 1:
+        flash('Nemôžete vymazať posledného správcu rodiny', 'error')
+    else:
+        admin.is_active = False
+        db.session.commit()
+        flash('Správca bol úspešne odstránený', 'success')
+    
+    return redirect(url_for('superadmin_family_admins', family_id=family_id))
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5001)
