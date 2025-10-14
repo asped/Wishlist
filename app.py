@@ -304,21 +304,19 @@ def family_login():
     if form.validate_on_submit():
         password = form.password.data.strip()
         
-        # Find the family with matching password
+        # Get all active families and check passwords
+        # Note: bcrypt hashes include salt, so we can't query directly by hash
         families = Family.query.filter_by(is_active=True).all()
-        authenticated_family = None
         
+        # Check each family's password
         for family in families:
             if check_password(password, family.password_hash):
-                authenticated_family = family
-                break
+                session['family_id'] = family.id
+                session['family_name'] = family.name
+                return redirect(url_for('family_dashboard'))
         
-        if authenticated_family:
-            session['family_id'] = authenticated_family.id
-            session['family_name'] = authenticated_family.name
-            return redirect(url_for('family_dashboard'))
-        else:
-            flash('Nesprávne rodinné heslo', 'error')
+        # No matching password found
+        flash('Nesprávne rodinné heslo', 'error')
     
     return render_template('family_login.html', form=form)
 
