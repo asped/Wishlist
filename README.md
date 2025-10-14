@@ -17,6 +17,33 @@ A simple and senior-friendly gift list web application perfect for families! Par
 - Python 3.8 or higher
 - pip (Python package installer)
 
+### Installation & Setup
+
+1. **Install Dependencies**
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+2. **Create Initial Accounts** (for empty database)
+   ```bash
+   python setup_admin.py
+   ```
+   This interactive script creates:
+   - SuperAdmin account (manages families)
+   - Initial family (with family password)
+   - Admin account (manages gifts and children)
+
+3. **Run the Application**
+   ```bash
+   python app.py
+   ```
+
+4. **Access the App**
+   - Visit: http://localhost:5000
+   - Login with family password to see gift lists
+   - Login as admin to manage gifts and children
+   - Login as superadmin to manage families
+
 ### Installation & Running
 
 #### Option 1: Quick Start (Easiest)
