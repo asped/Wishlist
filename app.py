@@ -303,11 +303,19 @@ def family_login():
     form = FamilyLoginForm()
     if form.validate_on_submit():
         password = form.password.data.strip()
-        family = Family.query.filter_by(is_active=True).first()
         
-        if family and check_password(password, family.password_hash):
-            session['family_id'] = family.id
-            session['family_name'] = family.name
+        # Find the family with matching password
+        families = Family.query.filter_by(is_active=True).all()
+        authenticated_family = None
+        
+        for family in families:
+            if check_password(password, family.password_hash):
+                authenticated_family = family
+                break
+        
+        if authenticated_family:
+            session['family_id'] = authenticated_family.id
+            session['family_name'] = authenticated_family.name
             return redirect(url_for('family_dashboard'))
         else:
             flash('Nesprávne rodinné heslo', 'error')
