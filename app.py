@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, jsonify, s
 from flask_sqlalchemy import SQLAlchemy
 from flask_mail import Mail, Message
 from flask_wtf import FlaskForm, CSRFProtect
+from flask_babel import Babel, gettext, ngettext, get_locale, format_datetime, Locale
 from wtforms import StringField, PasswordField, EmailField, TextAreaField, SelectField, SubmitField, HiddenField
 from wtforms.validators import DataRequired, Email, Length, EqualTo, ValidationError
 from datetime import datetime, timedelta
@@ -107,9 +108,28 @@ app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME')
 app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')
 app.config['MAIL_DEFAULT_SENDER'] = os.environ.get('MAIL_DEFAULT_SENDER', 'noreply@wishlist.com')
 
+# Babel configuration
+app.config['LANGUAGES'] = {
+    'sk': 'Slovenčina',
+    'cs': 'Čeština'
+}
+app.config['BABEL_DEFAULT_LOCALE'] = 'sk'
+app.config['BABEL_DEFAULT_TIMEZONE'] = 'Europe/Bratislava'
+
 db = SQLAlchemy(app)
 mail = Mail(app)
 csrf = CSRFProtect(app)
+def get_locale():
+    # Check if language is set in session
+    if 'language' in session:
+        return session['language']
+    # Check if language is set in request args
+    if request.args.get('lang'):
+        return request.args.get('lang')
+    # Default to Slovak
+    return 'sk'
+
+babel = Babel(app, locale_selector=get_locale)
 
 # Database Models
 class Family(db.Model):
@@ -186,59 +206,60 @@ class PasswordResetToken(db.Model):
 
 # Forms
 class FamilyLoginForm(FlaskForm):
-    password = PasswordField('Rodinné heslo', validators=[DataRequired()])
-    submit = SubmitField('Prihlásiť sa')
+    password = PasswordField(gettext('Rodinné heslo'), validators=[DataRequired()])
+    submit = SubmitField(gettext('Prihlásiť sa'))
 
 class AdminLoginForm(FlaskForm):
-    email = EmailField('Email', validators=[DataRequired(), Email()])
-    password = PasswordField('Heslo', validators=[DataRequired()])
-    submit = SubmitField('Prihlásiť sa')
+    email = EmailField(gettext('Email'), validators=[DataRequired(), Email()])
+    password = PasswordField(gettext('Heslo'), validators=[DataRequired()])
+    submit = SubmitField(gettext('Prihlásiť sa'))
 
 class SuperAdminLoginForm(FlaskForm):
-    email = EmailField('Email', validators=[DataRequired(), Email()])
-    password = PasswordField('Heslo', validators=[DataRequired()])
-    submit = SubmitField('Prihlásiť sa')
+    email = EmailField(gettext('Email'), validators=[DataRequired(), Email()])
+    password = PasswordField(gettext('Heslo'), validators=[DataRequired()])
+    submit = SubmitField(gettext('Prihlásiť sa'))
 
 class PasswordResetRequestForm(FlaskForm):
-    email = EmailField('Email', validators=[DataRequired(), Email()])
-    submit = SubmitField('Poslať link na reset hesla')
+    email = EmailField(gettext('Email'), validators=[DataRequired(), Email()])
+    submit = SubmitField(gettext('Poslať link na reset hesla'))
 
 class PasswordResetForm(FlaskForm):
-    password = PasswordField('Nové heslo', validators=[DataRequired(), Length(min=6)])
-    confirm_password = PasswordField('Potvrdiť heslo', validators=[DataRequired(), EqualTo('password')])
-    submit = SubmitField('Nastaviť nové heslo')
+    password = PasswordField(gettext('Nové heslo'), validators=[DataRequired(), Length(min=6)])
+    confirm_password = PasswordField(gettext('Potvrdiť heslo'), validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField(gettext('Nastaviť nové heslo'))
 
 class FamilyPasswordForm(FlaskForm):
-    password = PasswordField('Nové rodinné heslo', validators=[DataRequired(), Length(min=6)])
-    confirm_password = PasswordField('Potvrdiť heslo', validators=[DataRequired(), EqualTo('password')])
-    submit = SubmitField('Nastaviť heslo')
+    password = PasswordField(gettext('Nové rodinné heslo'), validators=[DataRequired(), Length(min=6)])
+    confirm_password = PasswordField(gettext('Potvrdiť heslo'), validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField(gettext('Nastaviť heslo'))
 
 class ChildForm(FlaskForm):
-    name = StringField('Meno', validators=[DataRequired(), Length(max=100)])
-    age = StringField('Vek')
-    submit = SubmitField('Uložiť')
+    name = StringField(gettext('Meno'), validators=[DataRequired(), Length(max=100)])
+    age = StringField(gettext('Vek'))
+    submit = SubmitField(gettext('Uložiť'))
 
 class GiftForm(FlaskForm):
-    name = StringField('Názov darčeka', validators=[DataRequired(), Length(max=200)])
-    description = TextAreaField('Popis')
-    link = StringField('Link 1')
-    link2 = StringField('Link 2')
-    image_url = StringField('URL obrázka')
-    price_range = StringField('Cenové rozpätie')
-    submit = SubmitField('Uložiť')
+    name = StringField(gettext('Názov darčeka'), validators=[DataRequired(), Length(max=200)])
+    description = TextAreaField(gettext('Popis'))
+    link = StringField(gettext('Link 1'))
+    link2 = StringField(gettext('Link 2'))
+    image_url = StringField(gettext('URL obrázka'))
+    price_range = StringField(gettext('Cenové rozpätie'))
+    currency = SelectField(gettext('Mena'), choices=[('EUR', 'EUR'), ('USD', 'USD'), ('CZK', 'CZK')], default='EUR')
+    submit = SubmitField(gettext('Uložiť'))
 
 class FamilyForm(FlaskForm):
-    name = StringField('Názov rodiny', validators=[DataRequired(), Length(max=100)])
-    password = PasswordField('Rodinné heslo', validators=[DataRequired(), Length(min=6)])
-    confirm_password = PasswordField('Potvrdiť heslo', validators=[DataRequired(), EqualTo('password')])
-    admin_email = EmailField('Email správcu', validators=[DataRequired(), Email()])
-    admin_password = PasswordField('Heslo správcu', validators=[DataRequired(), Length(min=6)])
-    submit = SubmitField('Vytvoriť rodinu')
+    name = StringField(gettext('Názov rodiny'), validators=[DataRequired(), Length(max=100)])
+    password = PasswordField(gettext('Rodinné heslo'), validators=[DataRequired(), Length(min=6)])
+    confirm_password = PasswordField(gettext('Potvrdiť heslo'), validators=[DataRequired(), EqualTo('password')])
+    admin_email = EmailField(gettext('Email správcu'), validators=[DataRequired(), Email()])
+    admin_password = PasswordField(gettext('Heslo správcu'), validators=[DataRequired(), Length(min=6)])
+    submit = SubmitField(gettext('Vytvoriť rodinu'))
 
 class AdminUserForm(FlaskForm):
-    email = EmailField('Email', validators=[DataRequired(), Email()])
-    password = PasswordField('Heslo', validators=[Length(min=6)])
-    submit = SubmitField('Uložiť')
+    email = EmailField(gettext('Email'), validators=[DataRequired(), Email()])
+    password = PasswordField(gettext('Heslo'), validators=[Length(min=6)])
+    submit = SubmitField(gettext('Uložiť'))
 
 # Utility functions
 def hash_password(password):
@@ -378,6 +399,13 @@ with app.app_context():
 def index():
     """Redirect to family login"""
     return redirect(url_for('family_login'))
+
+@app.route('/set_language/<language>')
+def set_language(language=None):
+    """Set the language for the session"""
+    if language in app.config['LANGUAGES']:
+        session['language'] = language
+    return redirect(request.referrer or url_for('family_login'))
 
 @app.route('/family-login', methods=['GET', 'POST'])
 def family_login():

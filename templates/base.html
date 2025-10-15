@@ -1,27 +1,34 @@
 <!DOCTYPE html>
-<html lang="sk">
+<html lang="{{ get_locale() }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{% block title %}Rodinný Zoznam Darčekov{% endblock %}</title>
+    <title>{% block title %}{{ gettext('Rodinný Zoznam Darčekov') }}{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
     <nav class="navbar">
         <div class="container">
-            <a href="{{ url_for('family_dashboard') }}" class="nav-brand">🎁 Rodinný Zoznam Darčekov</a>
+            <a href="{{ url_for('family_dashboard') }}" class="nav-brand">🎁 {{ gettext('Rodinný Zoznam Darčekov') }}</a>
             <div class="nav-links">
                 {% if session.family_id %}
-                    <a href="{{ url_for('family_dashboard') }}" class="nav-link nav-button">Zoznamy Darčekov</a>
+                    <a href="{{ url_for('family_dashboard') }}" class="nav-link nav-button">{{ gettext('Zoznamy Darčekov') }}</a>
                     {% if session.admin_id %}
-                        <a href="{{ url_for('admin_dashboard') }}" class="nav-link nav-button admin-button">Správa</a>
+                        <a href="{{ url_for('admin_dashboard') }}" class="nav-link nav-button admin-button">{{ gettext('Správa') }}</a>
                     {% endif %}
-                    <a href="{{ url_for('family_logout') }}" class="nav-link nav-button logout-button">Odhlásiť sa</a>
+                    <a href="{{ url_for('family_logout') }}" class="nav-link nav-button logout-button">{{ gettext('Odhlásiť sa') }}</a>
                 {% endif %}
                 {% if not session.admin_id %}
-                    <a href="{{ url_for('admin_login') }}" class="nav-link nav-button admin-button">Prihlásiť sa ako Správca</a>
+                    <a href="{{ url_for('admin_login') }}" class="nav-link nav-button admin-button">{{ gettext('Prihlásiť sa ako Správca') }}</a>
                 {% endif %}
+                
+                <!-- Language Switcher -->
+                <div class="language-switcher">
+                    <a href="{{ url_for('set_language', language='sk') }}" class="lang-link {% if get_locale() == 'sk' %}active{% endif %}">SK</a>
+                    <span class="lang-separator">|</span>
+                    <a href="{{ url_for('set_language', language='cs') }}" class="lang-link {% if get_locale() == 'cs' %}active{% endif %}">CZ</a>
+                </div>
             </div>
         </div>
     </nav>
@@ -42,7 +49,7 @@
 
     <footer class="footer">
         <div class="container">
-            <p>Vyrobené s ❤️ pre rodinu</p>
+            <p>{{ gettext('Vyrobené s ❤️ pre rodinu') }}</p>
         </div>
     </footer>
 </body>
