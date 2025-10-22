@@ -217,20 +217,69 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Clear file input when URL is entered
     imageUrlInput.addEventListener('input', function() {
-        if (this.value.trim()) {
+        const url = this.value.trim();
+        
+        if (url) {
             imageFileInput.value = '';
             filePreview.style.display = 'none';
             
-            // Show preview for URL
-            if (this.value.match(/\.(jpg|jpeg|png|gif|webp)$/i)) {
-                showImagePreview(this.value, `URL: ${this.value}`);
+            // Basic client-side validation
+            if (validateImageUrlClient(url)) {
+                // Show preview for URL
+                if (url.match(/\.(jpg|jpeg|png|gif|webp|svg|bmp|ico)$/i)) {
+                    showImagePreview(url, `URL: ${url}`);
+                } else {
+                    hideImagePreview();
+                }
             } else {
                 hideImagePreview();
+                // Show validation error
+                this.style.borderColor = '#e74c3c';
+                this.title = 'URL obsahuje potenciálne nebezpečný obsah alebo nie je platný';
             }
         } else {
             hideImagePreview();
+            this.style.borderColor = '';
+            this.title = '';
         }
     });
+    
+    // Client-side URL validation function
+    function validateImageUrlClient(url) {
+        // Check for suspicious patterns
+        const suspiciousPatterns = [
+            /javascript:/i,
+            /data:/i,
+            /vbscript:/i,
+            /onload\s*=/i,
+            /onerror\s*=/i,
+            /onclick\s*=/i,
+            /<script/i,
+            /<\/script>/i,
+            /<iframe/i,
+            /<object/i,
+            /<embed/i,
+            /<link/i,
+            /<meta/i,
+            /<style/i,
+            /expression\s*\(/i,
+            /url\s*\(/i,
+            /@import/i,
+        ];
+        
+        for (let pattern of suspiciousPatterns) {
+            if (pattern.test(url)) {
+                return false;
+            }
+        }
+        
+        // Check protocol
+        if (!url.match(/^https?:\/\//i)) {
+            return false;
+        }
+        
+        return true;
+    }
 });
 </script>
 {% endblock %}

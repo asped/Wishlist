@@ -957,6 +957,16 @@ main {
     margin: 0 auto;
 }
 
+/* URL validation error styling */
+.form-input[style*="border-color: #e74c3c"] {
+    border-color: #e74c3c !important;
+    box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.2);
+}
+
+.form-input[title*="nebezpečný"] {
+    background-color: #fdf2f2;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .page-title {
