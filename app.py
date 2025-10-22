@@ -12,6 +12,7 @@ import bcrypt
 from itsdangerous import URLSafeTimedSerializer
 import re
 import requests
+from urllib.parse import urljoin, urlparse
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///wishlist.db'
@@ -858,6 +859,81 @@ def superadmin_delete_family_admin(admin_id):
         flash('Správca bol úspešne odstránený', 'success')
     
     return redirect(url_for('superadmin_family_admins', family_id=family_id))
+
+@app.route('/api/fetch-product-image', methods=['POST'])
+@require_admin_auth
+def fetch_product_image():
+    """AJAX endpoint to fetch product images from URL with iframe fallback for blocked sites"""
+    try:
+        data = request.get_json()
+        if not data or 'product_url' not in data:
+            return jsonify({'error': 'Missing product_url parameter'}), 400
+        
+        product_url = data['product_url'].strip()
+        if not product_url:
+            return jsonify({'error': 'Empty product URL'}), 400
+        
+        # Check if this is a known blocked site that needs iframe fallback
+        parsed_url = urlparse(product_url)
+        domain = parsed_url.netloc.lower()
+        
+        # Known blocked sites that need iframe fallback
+        blocked_sites = ['alza.cz', 'mall.cz', 'amazon.', 'ebay.']
+        is_blocked_site = any(blocked in domain for blocked in blocked_sites)
+        
+        if is_blocked_site:
+            # Return iframe fallback response for blocked sites
+            return jsonify({
+                'success': True, 
+                'iframe_fallback': True,
+                'product_url': product_url,
+                'message': 'Stránka je chránená proti automatickému načítaniu. Zobrazujem stránku produktu pre manuálny výber obrázka.'
+            })
+        
+        # For non-blocked sites, try simple scraping
+        try:
+            headers = {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+                'Accept-Language': 'cs-CZ,cs;q=0.9,en;q=0.8',
+            }
+            
+            response = requests.get(product_url, headers=headers, timeout=10)
+            
+            if response.status_code == 200:
+                from bs4 import BeautifulSoup
+                soup = BeautifulSoup(response.content, 'html.parser')
+                
+                # Try to find Open Graph image
+                og_image = soup.find('meta', property='og:image')
+                if og_image and og_image.get('content'):
+                    image_url = og_image.get('content')
+                    # Convert relative URLs to absolute
+                    if image_url.startswith('//'):
+                        image_url = parsed_url.scheme + ':' + image_url
+                    elif image_url.startswith('/'):
+                        image_url = urljoin(product_url, image_url)
+                    return jsonify({'success': True, 'images': [image_url]})
+            
+            # If scraping failed, fall back to iframe
+            return jsonify({
+                'success': True, 
+                'iframe_fallback': True,
+                'product_url': product_url,
+                'message': 'Automatické načítanie obrázkov zlyhalo. Zobrazujem stránku produktu pre manuálny výber obrázka.'
+            })
+            
+        except Exception:
+            # If any error occurs, fall back to iframe
+            return jsonify({
+                'success': True, 
+                'iframe_fallback': True,
+                'product_url': product_url,
+                'message': 'Automatické načítanie obrázkov zlyhalo. Zobrazujem stránku produktu pre manuálny výber obrázka.'
+            })
+            
+    except Exception as e:
+        return jsonify({'success': False, 'error': 'Failed to fetch images'}), 500
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5001)
