@@ -11,6 +11,7 @@ import secrets
 import bcrypt
 from itsdangerous import URLSafeTimedSerializer
 import re
+import requests
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///wishlist.db'
@@ -142,7 +143,7 @@ class GiftForm(FlaskForm):
     link2 = StringField('Link 2')
     image_url = StringField('URL obrázka')
     price_range = StringField('Cenové rozpätie')
-    currency = SelectField('Mena', choices=[('EUR', 'EUR'), ('USD', 'USD'), ('CZK', 'CZK')], default='EUR')
+    currency = StringField('Mena')
     submit = SubmitField('Uložiť')
 
 class FamilyForm(FlaskForm):
@@ -409,7 +410,7 @@ def admin_login():
             admin.last_login = datetime.utcnow()
             db.session.commit()
             
-            return redirect(url_for('family_dashboard'))
+            return redirect(url_for('admin_dashboard'))
         else:
             flash('Nesprávne prihlasovacie údaje', 'error')
     

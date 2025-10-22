@@ -52,7 +52,7 @@
         <div class="form-group">
             {{ form.link2.label(class="form-label") }}
             {{ form.link2(class="form-input", placeholder="https://priklad.cz/produkt") }}
-            <p class="form-help">Pridajte alternatívny odkaz (napr. český/slovenský eshop)</p>
+            <p class="form-help">Pridajte druhý odkaz na miesto, kde možno darček kúpiť</p>
             {% if form.link2.errors %}
                 <div class="form-errors">
                     {% for error in form.link2.errors %}
@@ -76,15 +76,25 @@
         </div>
 
         <div class="form-group">
-            <label class="form-label">Cenové Rozpätie (voliteľné)</label>
-            <div class="price-input-group">
-                {{ form.price_range(class="form-input price-input", placeholder="napr. 20-30 alebo približne 50") }}
-                {{ form.currency(class="form-input currency-select") }}
-            </div>
+            {{ form.price_range.label(class="form-label") }}
+            {{ form.price_range(class="form-input", placeholder="napr. 20-30 alebo približne 50") }}
             <p class="form-help">Pridajte približnú cenu alebo cenové rozpätie darčeka</p>
             {% if form.price_range.errors %}
                 <div class="form-errors">
                     {% for error in form.price_range.errors %}
+                        <span class="error">{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            {{ form.currency.label(class="form-label") }}
+            {{ form.currency(class="form-input", placeholder="napr. EUR, USD, CZK") }}
+            <p class="form-help">Pridajte menu (napr. EUR, USD, CZK)</p>
+            {% if form.currency.errors %}
+                <div class="form-errors">
+                    {% for error in form.currency.errors %}
                         <span class="error">{{ error }}</span>
                     {% endfor %}
                 </div>
