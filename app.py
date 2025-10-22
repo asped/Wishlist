@@ -119,7 +119,7 @@ app.config['BABEL_DEFAULT_TIMEZONE'] = 'Europe/Bratislava'
 db = SQLAlchemy(app)
 mail = Mail(app)
 csrf = CSRFProtect(app)
-def get_locale():
+def get_current_locale():
     # Check if language is set in session
     if 'language' in session:
         return session['language']
@@ -129,7 +129,12 @@ def get_locale():
     # Default to Slovak
     return 'sk'
 
-babel = Babel(app, locale_selector=get_locale)
+babel = Babel(app, locale_selector=get_current_locale)
+
+# Make get_locale available to templates
+@app.context_processor
+def inject_get_locale():
+    return dict(get_locale=get_locale)
 
 # Database Models
 class Family(db.Model):
