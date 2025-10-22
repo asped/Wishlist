@@ -9,7 +9,7 @@
 </div>
 
 <div class="form-container">
-    <form method="POST" class="form">
+    <form method="POST" class="form" enctype="multipart/form-data">
         {{ form.hidden_tag() }}
         
         <div class="form-group">
@@ -65,7 +65,48 @@
         <div class="form-group">
             {{ form.image_url.label(class="form-label") }}
             {{ form.image_url(class="form-input", placeholder="https://priklad.sk/obrazok.jpg") }}
-            <p class="form-help">Pridajte odkaz na obrázok darčeka</p>
+            <p class="form-help">Pridajte odkaz na obrázok darčeka alebo nahrajte súbor</p>
+            
+            <!-- File upload option -->
+            <div class="file-upload-section">
+                <label for="image-file" class="file-upload-label">
+                    <span class="file-upload-text">Alebo nahrajte obrázok súborom</span>
+                    <input type="file" id="image-file" name="image_file" accept="image/*" class="file-upload-input">
+                    <span class="file-upload-button">Vybrať súbor</span>
+                </label>
+                <div class="file-upload-preview" id="file-preview" style="display: none;">
+                    <img id="preview-image" src="" alt="Preview">
+                    <div class="file-upload-info">
+                        <span id="file-name"></span>
+                        <button type="button" id="remove-file" class="btn btn-sm btn-secondary">Odstrániť</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Image preview section -->
+            <div class="image-preview-section" id="image-preview-section" style="display: none;">
+                <h4>Náhľad obrázka:</h4>
+                <div class="image-preview-container">
+                    <img id="image-preview" src="" alt="Preview" class="preview-image">
+                    <div class="image-preview-info">
+                        <span id="preview-source"></span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Show existing image if editing -->
+            {% if gift and gift.image_url %}
+            <div class="image-preview-section" id="existing-image-section">
+                <h4>Aktuálny obrázok:</h4>
+                <div class="image-preview-container">
+                    <img src="{{ gift.image_url }}" alt="Current image" class="preview-image">
+                    <div class="image-preview-info">
+                        <span>Aktuálny obrázok darčeka</span>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            
             {% if form.image_url.errors %}
                 <div class="form-errors">
                     {% for error in form.image_url.errors %}
@@ -94,4 +135,151 @@
         </div>
     </form>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const imageFileInput = document.getElementById('image-file');
+    const filePreview = document.getElementById('file-preview');
+    const previewImage = document.getElementById('preview-image');
+    const fileName = document.getElementById('file-name');
+    const removeFileBtn = document.getElementById('remove-file');
+    const imageUrlInput = document.querySelector('input[name="image_url"]');
+    const imagePreviewSection = document.getElementById('image-preview-section');
+    const imagePreview = document.getElementById('image-preview');
+    const previewSource = document.getElementById('preview-source');
+    const existingImageSection = document.getElementById('existing-image-section');
+    
+    function showImagePreview(src, source) {
+        imagePreview.src = src;
+        previewSource.textContent = source;
+        imagePreviewSection.style.display = 'block';
+        
+        // Hide existing image section when showing new preview
+        if (existingImageSection) {
+            existingImageSection.style.display = 'none';
+        }
+    }
+    
+    function hideImagePreview() {
+        imagePreviewSection.style.display = 'none';
+        imagePreview.src = '';
+        previewSource.textContent = '';
+        
+        // Show existing image section again if it exists
+        if (existingImageSection) {
+            existingImageSection.style.display = 'block';
+        }
+    }
+    
+    // Handle file selection
+    imageFileInput.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            // Validate file type
+            if (!file.type.startsWith('image/')) {
+                alert('Prosím vyberte súbor obrázka.');
+                this.value = '';
+                return;
+            }
+            
+            // Validate file size (max 5MB)
+            if (file.size > 5 * 1024 * 1024) {
+                alert('Súbor je príliš veľký. Maximálna veľkosť je 5MB.');
+                this.value = '';
+                return;
+            }
+            
+            // Show preview
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                previewImage.src = e.target.result;
+                fileName.textContent = file.name;
+                filePreview.style.display = 'block';
+                
+                // Show main preview
+                showImagePreview(e.target.result, `Nahraný súbor: ${file.name}`);
+            };
+            reader.readAsDataURL(file);
+            
+            // Clear URL input when file is selected
+            imageUrlInput.value = '';
+        }
+    });
+    
+    // Handle file removal
+    removeFileBtn.addEventListener('click', function() {
+        imageFileInput.value = '';
+        filePreview.style.display = 'none';
+        previewImage.src = '';
+        fileName.textContent = '';
+        hideImagePreview();
+    });
+    
+    // Clear file input when URL is entered
+    imageUrlInput.addEventListener('input', function() {
+        const url = this.value.trim();
+        
+        if (url) {
+            imageFileInput.value = '';
+            filePreview.style.display = 'none';
+            
+            // Basic client-side validation
+            if (validateImageUrlClient(url)) {
+                // Show preview for URL
+                if (url.match(/\.(jpg|jpeg|png|gif|webp|svg|bmp|ico)$/i)) {
+                    showImagePreview(url, `URL: ${url}`);
+                } else {
+                    hideImagePreview();
+                }
+            } else {
+                hideImagePreview();
+                // Show validation error
+                this.style.borderColor = '#e74c3c';
+                this.title = 'URL obsahuje potenciálne nebezpečný obsah alebo nie je platný';
+            }
+        } else {
+            hideImagePreview();
+            this.style.borderColor = '';
+            this.title = '';
+        }
+    });
+    
+    // Client-side URL validation function
+    function validateImageUrlClient(url) {
+        // Check for suspicious patterns
+        const suspiciousPatterns = [
+            /javascript:/i,
+            /data:/i,
+            /vbscript:/i,
+            /onload\s*=/i,
+            /onerror\s*=/i,
+            /onclick\s*=/i,
+            /<script/i,
+            /<\/script>/i,
+            /<iframe/i,
+            /<object/i,
+            /<embed/i,
+            /<link/i,
+            /<meta/i,
+            /<style/i,
+            /expression\s*\(/i,
+            /url\s*\(/i,
+            /@import/i,
+        ];
+        
+        for (let pattern of suspiciousPatterns) {
+            if (pattern.test(url)) {
+                return false;
+            }
+        }
+        
+        // Check protocol
+        if (!url.match(/^https?:\/\//i)) {
+            return false;
+        }
+        
+        return true;
+    }
+});
+</script>
 {% endblock %}

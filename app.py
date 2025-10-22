@@ -12,6 +12,89 @@ import bcrypt
 from itsdangerous import URLSafeTimedSerializer
 import re
 import requests
+from urllib.parse import urljoin, urlparse
+from urllib.parse import urlparse
+import mimetypes
+
+def validate_image_url(url):
+    """
+    Validate that a URL points to a legitimate image and is safe to use.
+    Returns (is_valid, error_message)
+    """
+    if not url or not url.strip():
+        return True, None  # Empty URLs are allowed
+    
+    url = url.strip()
+    
+    # Parse the URL
+    try:
+        parsed = urlparse(url)
+    except Exception:
+        return False, "Invalid URL format"
+    
+    # Check protocol - only allow http/https
+    if parsed.scheme not in ['http', 'https']:
+        return False, "Only HTTP and HTTPS URLs are allowed"
+    
+    # Check for suspicious patterns that might indicate XSS attempts
+    suspicious_patterns = [
+        r'javascript:',
+        r'data:',
+        r'vbscript:',
+        r'onload\s*=',
+        r'onerror\s*=',
+        r'onclick\s*=',
+        r'<script',
+        r'</script>',
+        r'<iframe',
+        r'<object',
+        r'<embed',
+        r'<link',
+        r'<meta',
+        r'<style',
+        r'expression\s*\(',
+        r'url\s*\(',
+        r'@import',
+    ]
+    
+    for pattern in suspicious_patterns:
+        if re.search(pattern, url, re.IGNORECASE):
+            return False, "URL contains potentially dangerous content"
+    
+    # Check if URL looks like an image based on extension
+    image_extensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.svg', '.bmp', '.ico']
+    url_lower = url.lower()
+    
+    # Check file extension
+    has_image_extension = any(url_lower.endswith(ext) for ext in image_extensions)
+    
+    # If it doesn't have an image extension, try to validate by making a HEAD request
+    if not has_image_extension:
+        try:
+            # Make a HEAD request to check content type without downloading the full file
+            response = requests.head(url, timeout=10, allow_redirects=True)
+            
+            if response.status_code == 200:
+                content_type = response.headers.get('content-type', '').lower()
+                if not content_type.startswith('image/'):
+                    return False, "URL does not point to an image file"
+            else:
+                return False, f"Could not verify image (HTTP {response.status_code})"
+                
+        except requests.exceptions.RequestException as e:
+            return False, f"Could not verify image URL: {str(e)}"
+    
+    # Additional security checks
+    # Check for localhost/internal IPs (optional - comment out if you want to allow local images)
+    if parsed.hostname:
+        if parsed.hostname in ['localhost', '127.0.0.1', '0.0.0.0']:
+            return False, "Local URLs are not allowed for security reasons"
+        
+        # Check for private IP ranges
+        if parsed.hostname.startswith('192.168.') or parsed.hostname.startswith('10.') or parsed.hostname.startswith('172.'):
+            return False, "Private network URLs are not allowed"
+    
+    return True, None
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///wishlist.db'
@@ -504,12 +587,45 @@ def admin_add_gift(child_id):
     
     form = GiftForm()
     if form.validate_on_submit():
+        # Handle file upload
+        image_url = form.image_url.data.strip()
+        
+        # Validate image URL if provided
+        if image_url:
+            is_valid, error_msg = validate_image_url(image_url)
+            if not is_valid:
+                flash(f'Chyba v URL obrázka: {error_msg}', 'error')
+                return render_template('admin/gift_form.html', form=form, child=child)
+        
+        if 'image_file' in request.files:
+            file = request.files['image_file']
+            if file and file.filename:
+                # Save uploaded file
+                import os
+                from werkzeug.utils import secure_filename
+                
+                # Create uploads directory if it doesn't exist
+                upload_dir = os.path.join(app.root_path, 'static', 'uploads')
+                os.makedirs(upload_dir, exist_ok=True)
+                
+                # Generate unique filename
+                filename = secure_filename(file.filename)
+                name, ext = os.path.splitext(filename)
+                unique_filename = f"{name}_{datetime.now().strftime('%Y%m%d_%H%M%S')}{ext}"
+                
+                # Save file
+                file_path = os.path.join(upload_dir, unique_filename)
+                file.save(file_path)
+                
+                # Set image URL to the uploaded file
+                image_url = f"/static/uploads/{unique_filename}"
+        
         gift = Gift(
             name=form.name.data.strip(),
             description=form.description.data.strip(),
             link=form.link.data.strip(),
             link2=form.link2.data.strip(),
-            image_url=form.image_url.data.strip(),
+            image_url=image_url,
             price_range=form.price_range.data.strip(),
             child_id=child_id
         )
@@ -533,11 +649,44 @@ def admin_edit_gift(gift_id):
     
     form = GiftForm(obj=gift)
     if form.validate_on_submit():
+        # Handle file upload
+        image_url = form.image_url.data.strip()
+        
+        # Validate image URL if provided
+        if image_url:
+            is_valid, error_msg = validate_image_url(image_url)
+            if not is_valid:
+                flash(f'Chyba v URL obrázka: {error_msg}', 'error')
+                return render_template('admin/gift_form.html', form=form, child=gift.child, gift=gift)
+        
+        if 'image_file' in request.files:
+            file = request.files['image_file']
+            if file and file.filename:
+                # Save uploaded file
+                import os
+                from werkzeug.utils import secure_filename
+                
+                # Create uploads directory if it doesn't exist
+                upload_dir = os.path.join(app.root_path, 'static', 'uploads')
+                os.makedirs(upload_dir, exist_ok=True)
+                
+                # Generate unique filename
+                filename = secure_filename(file.filename)
+                name, ext = os.path.splitext(filename)
+                unique_filename = f"{name}_{datetime.now().strftime('%Y%m%d_%H%M%S')}{ext}"
+                
+                # Save file
+                file_path = os.path.join(upload_dir, unique_filename)
+                file.save(file_path)
+                
+                # Set image URL to the uploaded file
+                image_url = f"/static/uploads/{unique_filename}"
+        
         gift.name = form.name.data.strip()
         gift.description = form.description.data.strip()
         gift.link = form.link.data.strip()
         gift.link2 = form.link2.data.strip()
-        gift.image_url = form.image_url.data.strip()
+        gift.image_url = image_url
         gift.price_range = form.price_range.data.strip()
         
         db.session.commit()
