@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 
-{% block title %}Prihlásenie - Rodinný Zoznam Darčekov{% endblock %}
+{% block title %}{{ gettext('Prihlásenie - Rodinný Zoznam Darčekov') }}{% endblock %}
 
 {% block content %}
 <div class="login-container">
     <div class="login-form">
         <div class="login-header">
-            <h1 class="login-title">🎁 Rodinný Zoznam Darčekov</h1>
-            <p class="login-subtitle">Zadajte heslo pre prístup</p>
+            <h1 class="login-title">🎁 {{ gettext('Rodinný Zoznam Darčekov') }}</h1>
+            <p class="login-subtitle">{{ gettext('Zadajte heslo pre prístup') }}</p>
         </div>
 
         {% if error %}
@@ -18,23 +18,23 @@
 
         <form method="POST" class="form">
             <div class="form-group">
-                <label for="password" class="form-label">Heslo:</label>
+                <label for="password" class="form-label">{{ gettext('Heslo:') }}</label>
                 <input type="password" 
                        id="password" 
                        name="password" 
                        class="form-input" 
-                       placeholder="Zadajte heslo"
+                       placeholder="{{ gettext('Zadajte heslo') }}"
                        required
                        autofocus>
             </div>
             
             <div class="form-actions">
-                <button type="submit" class="btn btn-primary btn-large">Prihlásiť sa</button>
+                <button type="submit" class="btn btn-primary btn-large">{{ gettext('Prihlásiť sa') }}</button>
             </div>
         </form>
         
         <div class="login-help">
-            <p>Pre prístup k zoznamu darčekov zadajte rodinné heslo.</p>
+            <p>{{ gettext('Pre prístup k zoznamu darčekov zadajte rodinné heslo.') }}</p>
         </div>
     </div>
 </div>

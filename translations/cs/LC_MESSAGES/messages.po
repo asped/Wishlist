@@ -1,0 +1,158 @@
+# Czech translations for Wishlist App.
+# Copyright (C) 2025 Wishlist App
+# This file is distributed under the same license as the Wishlist App project.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Wishlist App 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-10-23 00:54+0200\n"
+"PO-Revision-Date: 2025-10-23 00:54+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: cs\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=((n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2);\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: app.py:214 app.py:258
+msgid "Rodinné heslo"
+msgstr "Rodinné heslo"
+
+#: app.py:215 app.py:220 app.py:225 templates/login.html:32
+msgid "Prihlásiť sa"
+msgstr "Přihlásit se"
+
+#: app.py:218 app.py:223 app.py:228 app.py:265
+msgid "Email"
+msgstr "Email"
+
+#: app.py:219 app.py:224 app.py:266
+msgid "Heslo"
+msgstr "Heslo"
+
+#: app.py:229
+msgid "Poslať link na reset hesla"
+msgstr "Poslat odkaz na reset hesla"
+
+#: app.py:232
+msgid "Nové heslo"
+msgstr "Nové heslo"
+
+#: app.py:233 app.py:238 app.py:259
+msgid "Potvrdiť heslo"
+msgstr "Potvrdit heslo"
+
+#: app.py:234
+msgid "Nastaviť nové heslo"
+msgstr "Nastavit nové heslo"
+
+#: app.py:237 app.py:239
+msgid "Nové rodinné heslo"
+msgstr "Nové rodinné heslo"
+
+#: app.py:240
+msgid "Nastaviť heslo"
+msgstr "Nastavit heslo"
+
+#: app.py:243
+msgid "Meno"
+msgstr "Jméno"
+
+#: app.py:244
+msgid "Vek"
+msgstr "Věk"
+
+#: app.py:245
+msgid "Uložiť"
+msgstr "Uložit"
+
+#: app.py:248
+msgid "Názov darčeka"
+msgstr "Název dárku"
+
+#: app.py:249
+msgid "Popis"
+msgstr "Popis"
+
+#: app.py:250
+msgid "Link 1"
+msgstr "Odkaz 1"
+
+#: app.py:251
+msgid "Link 2"
+msgstr "Odkaz 2"
+
+#: app.py:252
+msgid "URL obrázka"
+msgstr "URL obrázku"
+
+#: app.py:253
+msgid "Cenové rozpätie"
+msgstr "Cenové rozpětí"
+
+#: app.py:254
+msgid "Mena"
+msgstr "Měna"
+
+#: app.py:258
+msgid "Názov rodiny"
+msgstr "Název rodiny"
+
+#: app.py:260
+msgid "Email správcu"
+msgstr "Email správce"
+
+#: app.py:261
+msgid "Heslo správcu"
+msgstr "Heslo správce"
+
+#: app.py:262
+msgid "Vytvoriť rodinu"
+msgstr "Vytvořit rodinu"
+
+#: templates/base.html:7 templates/base.html:13 templates/login.html:9
+msgid "Rodinný Zoznam Darčekov"
+msgstr "Rodinný Seznam Dárků"
+
+#: templates/base.html:16
+msgid "Zoznamy Darčekov"
+msgstr "Seznamy Dárků"
+
+#: templates/base.html:18
+msgid "Správa"
+msgstr "Správa"
+
+#: templates/base.html:20
+msgid "Odhlásiť sa"
+msgstr "Odhlásit se"
+
+#: templates/base.html:23
+msgid "Prihlásiť sa ako Správca"
+msgstr "Přihlásit se jako Správce"
+
+#: templates/base.html:52
+msgid "Vyrobené s ❤️ pre rodinu"
+msgstr "Vyrobeno s ❤️ pro rodinu"
+
+#: templates/login.html:3
+msgid "Prihlásenie - Rodinný Zoznam Darčekov"
+msgstr "Přihlášení - Rodinný Seznam Dárků"
+
+#: templates/login.html:10
+msgid "Zadajte heslo pre prístup"
+msgstr "Zadejte heslo pro přístup"
+
+#: templates/login.html:21
+msgid "Heslo:"
+msgstr "Heslo:"
+
+#: templates/login.html:26
+msgid "Zadajte heslo"
+msgstr "Zadejte heslo"
+
+#: templates/login.html:37
+msgid "Pre prístup k zoznamu darčekov zadajte rodinné heslo."
+msgstr "Pro přístup k seznamu dárků zadejte rodinné heslo."
