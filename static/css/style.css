@@ -922,6 +922,41 @@ main {
     word-break: break-all;
 }
 
+/* Gift image tiles in admin table */
+.gift-image-cell {
+    width: 80px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.gift-image-tile {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 2px solid #e9ecef;
+    transition: all 0.2s ease;
+}
+
+.gift-image-tile:hover {
+    border-color: #3498db;
+    transform: scale(1.05);
+}
+
+.gift-image-placeholder {
+    width: 60px;
+    height: 60px;
+    background: #f8f9fa;
+    border: 2px dashed #dee2e6;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: #6c757d;
+    margin: 0 auto;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .page-title {
