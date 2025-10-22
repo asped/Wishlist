@@ -804,84 +804,85 @@ main {
     font-size: 18px;
 }
 
-/* Image fetching feedback styles */
-.image-fetch-feedback {
-    margin-top: 5px;
-    font-size: 14px;
-    padding: 8px 12px;
-    border-radius: 4px;
-    display: none;
-}
-
-.image-fetch-feedback.success {
-    background-color: #d4edda;
-    color: #155724;
-    border: 1px solid #c3e6cb;
-}
-
-.image-fetch-feedback.error {
-    background-color: #f8d7da;
-    color: #721c24;
-    border: 1px solid #f5c6cb;
-}
-
-.image-fetch-feedback.loading {
-    background-color: #d1ecf1;
-    color: #0c5460;
-    border: 1px solid #bee5eb;
-}
-
-/* Form input states */
-.form-input.fetching {
-    background-color: #f8f9fa;
-    border-color: #3498db;
-}
-
-.form-input.fetch-success {
-    border-color: #28a745;
-}
-
-.form-input.fetch-error {
-    border-color: #dc3545;
-}
-
-/* Iframe fallback interface */
-.iframe-fallback {
+/* File upload styles */
+.file-upload-section {
     margin-top: 15px;
-    display: none;
     padding: 20px;
     background: #f8f9fa;
+    border: 2px dashed #dee2e6;
+    border-radius: 8px;
+    text-align: center;
+    transition: all 0.2s ease;
+}
+
+.file-upload-section:hover {
+    border-color: #3498db;
+    background: #f0f8ff;
+}
+
+.file-upload-label {
+    display: block;
+    cursor: pointer;
+}
+
+.file-upload-input {
+    display: none;
+}
+
+.file-upload-text {
+    display: block;
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.file-upload-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background: #3498db;
+    color: white;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.2s ease;
+}
+
+.file-upload-button:hover {
+    background: #2980b9;
+}
+
+.file-upload-preview {
+    margin-top: 15px;
+    padding: 15px;
+    background: white;
     border: 1px solid #e9ecef;
     border-radius: 8px;
+    text-align: left;
 }
 
-.iframe-fallback h4 {
-    margin: 0 0 10px 0;
-    color: #333;
-    font-size: 16px;
+.file-upload-preview img {
+    max-width: 200px;
+    max-height: 150px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    display: block;
 }
 
-.iframe-container {
-    margin-bottom: 20px;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.iframe-container iframe {
-    border: none;
-    border-radius: 8px;
-}
-
-.iframe-actions {
+.file-upload-info {
     display: flex;
-    gap: 10px;
-    justify-content: flex-end;
+    justify-content: space-between;
+    align-items: center;
 }
 
-.iframe-actions .btn {
-    padding: 8px 16px;
+.file-upload-info span {
     font-size: 14px;
+    color: #666;
+    font-weight: 500;
+}
+
+.btn-sm {
+    padding: 4px 8px;
+    font-size: 12px;
 }
 
 /* Responsive Design */

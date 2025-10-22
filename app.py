@@ -505,12 +505,38 @@ def admin_add_gift(child_id):
     
     form = GiftForm()
     if form.validate_on_submit():
+        # Handle file upload
+        image_url = form.image_url.data.strip()
+        
+        if 'image_file' in request.files:
+            file = request.files['image_file']
+            if file and file.filename:
+                # Save uploaded file
+                import os
+                from werkzeug.utils import secure_filename
+                
+                # Create uploads directory if it doesn't exist
+                upload_dir = os.path.join(app.root_path, 'static', 'uploads')
+                os.makedirs(upload_dir, exist_ok=True)
+                
+                # Generate unique filename
+                filename = secure_filename(file.filename)
+                name, ext = os.path.splitext(filename)
+                unique_filename = f"{name}_{datetime.now().strftime('%Y%m%d_%H%M%S')}{ext}"
+                
+                # Save file
+                file_path = os.path.join(upload_dir, unique_filename)
+                file.save(file_path)
+                
+                # Set image URL to the uploaded file
+                image_url = f"/static/uploads/{unique_filename}"
+        
         gift = Gift(
             name=form.name.data.strip(),
             description=form.description.data.strip(),
             link=form.link.data.strip(),
             link2=form.link2.data.strip(),
-            image_url=form.image_url.data.strip(),
+            image_url=image_url,
             price_range=form.price_range.data.strip(),
             child_id=child_id
         )
@@ -534,11 +560,37 @@ def admin_edit_gift(gift_id):
     
     form = GiftForm(obj=gift)
     if form.validate_on_submit():
+        # Handle file upload
+        image_url = form.image_url.data.strip()
+        
+        if 'image_file' in request.files:
+            file = request.files['image_file']
+            if file and file.filename:
+                # Save uploaded file
+                import os
+                from werkzeug.utils import secure_filename
+                
+                # Create uploads directory if it doesn't exist
+                upload_dir = os.path.join(app.root_path, 'static', 'uploads')
+                os.makedirs(upload_dir, exist_ok=True)
+                
+                # Generate unique filename
+                filename = secure_filename(file.filename)
+                name, ext = os.path.splitext(filename)
+                unique_filename = f"{name}_{datetime.now().strftime('%Y%m%d_%H%M%S')}{ext}"
+                
+                # Save file
+                file_path = os.path.join(upload_dir, unique_filename)
+                file.save(file_path)
+                
+                # Set image URL to the uploaded file
+                image_url = f"/static/uploads/{unique_filename}"
+        
         gift.name = form.name.data.strip()
         gift.description = form.description.data.strip()
         gift.link = form.link.data.strip()
         gift.link2 = form.link2.data.strip()
-        gift.image_url = form.image_url.data.strip()
+        gift.image_url = image_url
         gift.price_range = form.price_range.data.strip()
         
         db.session.commit()
@@ -859,81 +911,6 @@ def superadmin_delete_family_admin(admin_id):
         flash('Správca bol úspešne odstránený', 'success')
     
     return redirect(url_for('superadmin_family_admins', family_id=family_id))
-
-@app.route('/api/fetch-product-image', methods=['POST'])
-@require_admin_auth
-def fetch_product_image():
-    """AJAX endpoint to fetch product images from URL with iframe fallback for blocked sites"""
-    try:
-        data = request.get_json()
-        if not data or 'product_url' not in data:
-            return jsonify({'error': 'Missing product_url parameter'}), 400
-        
-        product_url = data['product_url'].strip()
-        if not product_url:
-            return jsonify({'error': 'Empty product URL'}), 400
-        
-        # Check if this is a known blocked site that needs iframe fallback
-        parsed_url = urlparse(product_url)
-        domain = parsed_url.netloc.lower()
-        
-        # Known blocked sites that need iframe fallback
-        blocked_sites = ['alza.cz', 'mall.cz', 'amazon.', 'ebay.']
-        is_blocked_site = any(blocked in domain for blocked in blocked_sites)
-        
-        if is_blocked_site:
-            # Return iframe fallback response for blocked sites
-            return jsonify({
-                'success': True, 
-                'iframe_fallback': True,
-                'product_url': product_url,
-                'message': 'Stránka je chránená proti automatickému načítaniu. Zobrazujem stránku produktu pre manuálny výber obrázka.'
-            })
-        
-        # For non-blocked sites, try simple scraping
-        try:
-            headers = {
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-                'Accept-Language': 'cs-CZ,cs;q=0.9,en;q=0.8',
-            }
-            
-            response = requests.get(product_url, headers=headers, timeout=10)
-            
-            if response.status_code == 200:
-                from bs4 import BeautifulSoup
-                soup = BeautifulSoup(response.content, 'html.parser')
-                
-                # Try to find Open Graph image
-                og_image = soup.find('meta', property='og:image')
-                if og_image and og_image.get('content'):
-                    image_url = og_image.get('content')
-                    # Convert relative URLs to absolute
-                    if image_url.startswith('//'):
-                        image_url = parsed_url.scheme + ':' + image_url
-                    elif image_url.startswith('/'):
-                        image_url = urljoin(product_url, image_url)
-                    return jsonify({'success': True, 'images': [image_url]})
-            
-            # If scraping failed, fall back to iframe
-            return jsonify({
-                'success': True, 
-                'iframe_fallback': True,
-                'product_url': product_url,
-                'message': 'Automatické načítanie obrázkov zlyhalo. Zobrazujem stránku produktu pre manuálny výber obrázka.'
-            })
-            
-        except Exception:
-            # If any error occurs, fall back to iframe
-            return jsonify({
-                'success': True, 
-                'iframe_fallback': True,
-                'product_url': product_url,
-                'message': 'Automatické načítanie obrázkov zlyhalo. Zobrazujem stránku produktu pre manuálny výber obrázka.'
-            })
-            
-    except Exception as e:
-        return jsonify({'success': False, 'error': 'Failed to fetch images'}), 500
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5001)

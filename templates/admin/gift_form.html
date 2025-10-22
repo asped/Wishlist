@@ -9,7 +9,7 @@
 </div>
 
 <div class="form-container">
-    <form method="POST" class="form">
+    <form method="POST" class="form" enctype="multipart/form-data">
         {{ form.hidden_tag() }}
         
         <div class="form-group">
@@ -65,22 +65,24 @@
         <div class="form-group">
             {{ form.image_url.label(class="form-label") }}
             {{ form.image_url(class="form-input", placeholder="https://priklad.sk/obrazok.jpg") }}
-            <p class="form-help">Pridajte odkaz na obrázok darčeka</p>
-            <div class="image-fetch-feedback" id="image-fetch-feedback"></div>
+            <p class="form-help">Pridajte odkaz na obrázok darčeka alebo nahrajte súbor</p>
             
-            <!-- Iframe fallback interface -->
-            <div class="iframe-fallback" id="iframe-fallback">
-                <h4>Manuálny výber obrázka:</h4>
-                <p class="form-help" style="margin-bottom: 15px; font-size: 14px; color: #666;">
-                    Stránka produktu je zobrazená nižšie. Nájdite hlavný obrázok produktu a skopírujte jeho URL do poľa vyššie.
-                </p>
-                <div class="iframe-container">
-                    <iframe id="product-iframe" src="" width="100%" height="500px" frameborder="0"></iframe>
-                </div>
-                <div class="iframe-actions">
-                    <button type="button" class="btn btn-secondary" id="close-iframe">Zavrieť</button>
+            <!-- File upload option -->
+            <div class="file-upload-section">
+                <label for="image-file" class="file-upload-label">
+                    <span class="file-upload-text">Alebo nahrajte obrázok súborom</span>
+                    <input type="file" id="image-file" name="image_file" accept="image/*" class="file-upload-input">
+                    <span class="file-upload-button">Vybrať súbor</span>
+                </label>
+                <div class="file-upload-preview" id="file-preview" style="display: none;">
+                    <img id="preview-image" src="" alt="Preview">
+                    <div class="file-upload-info">
+                        <span id="file-name"></span>
+                        <button type="button" id="remove-file" class="btn btn-sm btn-secondary">Odstrániť</button>
+                    </div>
                 </div>
             </div>
+            
             {% if form.image_url.errors %}
                 <div class="form-errors">
                     {% for error in form.image_url.errors %}
@@ -112,163 +114,60 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const link1Input = document.querySelector('input[name="link"]');
-    const link2Input = document.querySelector('input[name="link2"]');
+    const imageFileInput = document.getElementById('image-file');
+    const filePreview = document.getElementById('file-preview');
+    const previewImage = document.getElementById('preview-image');
+    const fileName = document.getElementById('file-name');
+    const removeFileBtn = document.getElementById('remove-file');
     const imageUrlInput = document.querySelector('input[name="image_url"]');
-    const feedbackDiv = document.getElementById('image-fetch-feedback');
-    const iframeFallbackDiv = document.getElementById('iframe-fallback');
-    const productIframe = document.getElementById('product-iframe');
-    const closeIframeBtn = document.getElementById('close-iframe');
     
-    let fetchTimeout = null;
-    
-    function showFeedback(message, type) {
-        feedbackDiv.textContent = message;
-        feedbackDiv.className = `image-fetch-feedback ${type}`;
-        feedbackDiv.style.display = 'block';
-        
-        // Auto-hide success messages after 5 seconds
-        if (type === 'success') {
-            setTimeout(() => {
-                feedbackDiv.style.display = 'none';
-            }, 5000);
-        }
-    }
-    
-    function hideFeedback() {
-        feedbackDiv.style.display = 'none';
-    }
-    
-    function hideIframeFallback() {
-        iframeFallbackDiv.style.display = 'none';
-        productIframe.src = '';
-    }
-    
-    function showIframeFallback(productUrl) {
-        productIframe.src = productUrl;
-        iframeFallbackDiv.style.display = 'block';
-    }
-    
-    function fetchImageFromUrl(url) {
-        // Only fetch if image URL field is empty
-        if (imageUrlInput.value.trim()) {
-            return;
-        }
-        
-        // Validate URL
-        try {
-            new URL(url);
-        } catch {
-            return;
-        }
-        
-        // Show loading state
-        showFeedback('Hľadám obrázok produktu...', 'loading');
-        imageUrlInput.classList.add('fetching');
-        
-        // Make AJAX request
-        fetch('/api/fetch-product-image', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': document.querySelector('input[name="csrf_token"]').value
-            },
-            body: JSON.stringify({
-                product_url: url
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            imageUrlInput.classList.remove('fetching');
-            
-            if (data.success) {
-                if (data.iframe_fallback) {
-                    // Show iframe fallback for blocked sites
-                    showFeedback(data.message, 'success');
-                    showIframeFallback(data.product_url);
-                } else if (data.images && data.images.length > 0) {
-                    // Single image found - auto-populate it
-                    imageUrlInput.value = data.images[0];
-                    imageUrlInput.classList.add('fetch-success');
-                    showFeedback('Obrázok produktu bol úspešne nájdený!', 'success');
-                    
-                    setTimeout(() => {
-                        imageUrlInput.classList.remove('fetch-success');
-                    }, 2000);
-                } else {
-                    imageUrlInput.classList.add('fetch-error');
-                    showFeedback('Obrázky produktu sa nepodarilo nájsť.', 'error');
-                    
-                    setTimeout(() => {
-                        imageUrlInput.classList.remove('fetch-error');
-                    }, 3000);
-                }
-            } else {
-                imageUrlInput.classList.add('fetch-error');
-                showFeedback('Chyba pri načítavaní obrázkov.', 'error');
-                
-                setTimeout(() => {
-                    imageUrlInput.classList.remove('fetch-error');
-                }, 3000);
+    // Handle file selection
+    imageFileInput.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            // Validate file type
+            if (!file.type.startsWith('image/')) {
+                alert('Prosím vyberte súbor obrázka.');
+                this.value = '';
+                return;
             }
-        })
-        .catch(error => {
-            imageUrlInput.classList.remove('fetching');
-            imageUrlInput.classList.add('fetch-error');
-            showFeedback('Chyba pri načítavaní obrázkov.', 'error');
             
-            setTimeout(() => {
-                imageUrlInput.classList.remove('fetch-error');
-            }, 3000);
-        });
-    }
-    
-    function handleUrlInput(input) {
-        const url = input.value.trim();
-        
-        // Clear existing timeout
-        if (fetchTimeout) {
-            clearTimeout(fetchTimeout);
+            // Validate file size (max 5MB)
+            if (file.size > 5 * 1024 * 1024) {
+                alert('Súbor je príliš veľký. Maximálna veľkosť je 5MB.');
+                this.value = '';
+                return;
+            }
+            
+            // Show preview
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                previewImage.src = e.target.result;
+                fileName.textContent = file.name;
+                filePreview.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+            
+            // Clear URL input when file is selected
+            imageUrlInput.value = '';
         }
-        
-        // Hide any existing feedback and iframe
-        hideFeedback();
-        hideIframeFallback();
-        
-        // Only proceed if URL looks valid and image field is empty
-        if (url && url.startsWith('http') && !imageUrlInput.value.trim()) {
-            // Debounce: wait 1 second after user stops typing
-            fetchTimeout = setTimeout(() => {
-                fetchImageFromUrl(url);
-            }, 1000);
+    });
+    
+    // Handle file removal
+    removeFileBtn.addEventListener('click', function() {
+        imageFileInput.value = '';
+        filePreview.style.display = 'none';
+        previewImage.src = '';
+        fileName.textContent = '';
+    });
+    
+    // Clear file input when URL is entered
+    imageUrlInput.addEventListener('input', function() {
+        if (this.value.trim()) {
+            imageFileInput.value = '';
+            filePreview.style.display = 'none';
         }
-    }
-    
-    // Add event listeners to both link inputs
-    if (link1Input) {
-        link1Input.addEventListener('input', () => handleUrlInput(link1Input));
-    }
-    
-    if (link2Input) {
-        link2Input.addEventListener('input', () => handleUrlInput(link2Input));
-    }
-    
-    // Close iframe button
-    if (closeIframeBtn) {
-        closeIframeBtn.addEventListener('click', function() {
-            hideIframeFallback();
-            hideFeedback();
-        });
-    }
-    
-    // Clear feedback when user manually edits image URL
-    if (imageUrlInput) {
-        imageUrlInput.addEventListener('input', () => {
-            hideFeedback();
-            hideIframeFallback();
-            imageUrlInput.classList.remove('fetch-success', 'fetch-error');
-        });
-    }
+    });
 });
 </script>
 {% endblock %}
