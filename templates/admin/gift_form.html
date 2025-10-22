@@ -83,6 +83,30 @@
                 </div>
             </div>
             
+            <!-- Image preview section -->
+            <div class="image-preview-section" id="image-preview-section" style="display: none;">
+                <h4>Náhľad obrázka:</h4>
+                <div class="image-preview-container">
+                    <img id="image-preview" src="" alt="Preview" class="preview-image">
+                    <div class="image-preview-info">
+                        <span id="preview-source"></span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Show existing image if editing -->
+            {% if gift and gift.image_url %}
+            <div class="image-preview-section" id="existing-image-section">
+                <h4>Aktuálny obrázok:</h4>
+                <div class="image-preview-container">
+                    <img src="{{ gift.image_url }}" alt="Current image" class="preview-image">
+                    <div class="image-preview-info">
+                        <span>Aktuálny obrázok darčeka</span>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            
             {% if form.image_url.errors %}
                 <div class="form-errors">
                     {% for error in form.image_url.errors %}
@@ -120,6 +144,32 @@ document.addEventListener('DOMContentLoaded', function() {
     const fileName = document.getElementById('file-name');
     const removeFileBtn = document.getElementById('remove-file');
     const imageUrlInput = document.querySelector('input[name="image_url"]');
+    const imagePreviewSection = document.getElementById('image-preview-section');
+    const imagePreview = document.getElementById('image-preview');
+    const previewSource = document.getElementById('preview-source');
+    const existingImageSection = document.getElementById('existing-image-section');
+    
+    function showImagePreview(src, source) {
+        imagePreview.src = src;
+        previewSource.textContent = source;
+        imagePreviewSection.style.display = 'block';
+        
+        // Hide existing image section when showing new preview
+        if (existingImageSection) {
+            existingImageSection.style.display = 'none';
+        }
+    }
+    
+    function hideImagePreview() {
+        imagePreviewSection.style.display = 'none';
+        imagePreview.src = '';
+        previewSource.textContent = '';
+        
+        // Show existing image section again if it exists
+        if (existingImageSection) {
+            existingImageSection.style.display = 'block';
+        }
+    }
     
     // Handle file selection
     imageFileInput.addEventListener('change', function(e) {
@@ -145,6 +195,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 previewImage.src = e.target.result;
                 fileName.textContent = file.name;
                 filePreview.style.display = 'block';
+                
+                // Show main preview
+                showImagePreview(e.target.result, `Nahraný súbor: ${file.name}`);
             };
             reader.readAsDataURL(file);
             
@@ -159,6 +212,7 @@ document.addEventListener('DOMContentLoaded', function() {
         filePreview.style.display = 'none';
         previewImage.src = '';
         fileName.textContent = '';
+        hideImagePreview();
     });
     
     // Clear file input when URL is entered
@@ -166,6 +220,15 @@ document.addEventListener('DOMContentLoaded', function() {
         if (this.value.trim()) {
             imageFileInput.value = '';
             filePreview.style.display = 'none';
+            
+            // Show preview for URL
+            if (this.value.match(/\.(jpg|jpeg|png|gif|webp)$/i)) {
+                showImagePreview(this.value, `URL: ${this.value}`);
+            } else {
+                hideImagePreview();
+            }
+        } else {
+            hideImagePreview();
         }
     });
 });
