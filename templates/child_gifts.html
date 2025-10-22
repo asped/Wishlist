@@ -37,7 +37,7 @@
                 <h3 class="gift-tile-name">{{ gift.name }}</h3>
                 
                 {% if gift.price_range %}
-                <p class="gift-tile-price"><strong>Cena:</strong> {{ gift.price_range }} {{ gift.currency }}</p>
+                <p class="gift-tile-price"><strong>Cena:</strong> {{ gift.price_range }}</p>
                 {% endif %}
             </div>
             
@@ -53,7 +53,7 @@
                 {% endif %}
 
                 {% if gift.price_range %}
-                <p class="gift-price"><strong>Cena:</strong> {{ gift.price_range }} {{ gift.currency }}</p>
+                <p class="gift-price"><strong>Cena:</strong> {{ gift.price_range }}</p>
                 {% endif %}
 
                 {% if gift.link %}
@@ -64,7 +64,7 @@
 
                 {% if gift.link2 %}
                 <div class="gift-link">
-                    <a href="{{ gift.link2 }}" target="_blank" class="btn-link">🔗 Alternatívny Odkaz</a>
+                    <a href="{{ gift.link2 }}" target="_blank" class="btn-link">🔗 Zobraziť Online</a>
                 </div>
                 {% endif %}
 

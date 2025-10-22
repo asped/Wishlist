@@ -11,6 +11,7 @@ import secrets
 import bcrypt
 from itsdangerous import URLSafeTimedSerializer
 import re
+import requests
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///wishlist.db'
@@ -84,7 +85,6 @@ class Gift(db.Model):
     link2 = db.Column(db.String(500))
     image_url = db.Column(db.String(500))
     price_range = db.Column(db.String(100))
-    currency = db.Column(db.String(10), default='EUR')
     is_purchased = db.Column(db.Boolean, default=False)
     purchased_by = db.Column(db.String(100))
     child_id = db.Column(db.Integer, db.ForeignKey('child.id'), nullable=False)
@@ -142,7 +142,6 @@ class GiftForm(FlaskForm):
     link2 = StringField('Link 2')
     image_url = StringField('URL obrázka')
     price_range = StringField('Cenové rozpätie')
-    currency = SelectField('Mena', choices=[('EUR', 'EUR'), ('USD', 'USD'), ('CZK', 'CZK')], default='EUR')
     submit = SubmitField('Uložiť')
 
 class FamilyForm(FlaskForm):
@@ -409,7 +408,7 @@ def admin_login():
             admin.last_login = datetime.utcnow()
             db.session.commit()
             
-            return redirect(url_for('family_dashboard'))
+            return redirect(url_for('admin_dashboard'))
         else:
             flash('Nesprávne prihlasovacie údaje', 'error')
     
@@ -512,7 +511,6 @@ def admin_add_gift(child_id):
             link2=form.link2.data.strip(),
             image_url=form.image_url.data.strip(),
             price_range=form.price_range.data.strip(),
-            currency=form.currency.data,
             child_id=child_id
         )
         db.session.add(gift)
@@ -541,7 +539,6 @@ def admin_edit_gift(gift_id):
         gift.link2 = form.link2.data.strip()
         gift.image_url = form.image_url.data.strip()
         gift.price_range = form.price_range.data.strip()
-        gift.currency = form.currency.data
         
         db.session.commit()
         flash('Darček bol úspešne upravený', 'success')
