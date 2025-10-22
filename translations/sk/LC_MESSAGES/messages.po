@@ -1,120 +1,119 @@
-# Slovak translations for PROJECT.
-# Copyright (C) 2025 ORGANIZATION
-# This file is distributed under the same license as the PROJECT project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+# Slovak translations for Wishlist App.
+# Copyright (C) 2025 Wishlist App
+# This file is distributed under the same license as the Wishlist App project.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: PROJECT VERSION\n"
-"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-10-15 10:50+0200\n"
-"PO-Revision-Date: 2025-10-15 10:50+0200\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Project-Id-Version: Wishlist App 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-10-23 00:54+0200\n"
+"PO-Revision-Date: 2025-10-23 00:54+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
 "Language: sk\n"
-"Language-Team: sk <LL@li.org>\n"
-"Plural-Forms: nplurals=3; plural=((n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2);\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=((n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2);\n"
 "Generated-By: Babel 2.17.0\n"
 
-#: app.py:127 app.py:171
+#: app.py:214 app.py:258
 msgid "Rodinné heslo"
 msgstr "Rodinné heslo"
 
-#: app.py:128 app.py:133 app.py:138
+#: app.py:215 app.py:220 app.py:225 templates/login.html:32
 msgid "Prihlásiť sa"
 msgstr "Prihlásiť sa"
 
-#: app.py:131 app.py:136 app.py:141 app.py:178
+#: app.py:218 app.py:223 app.py:228 app.py:265
 msgid "Email"
 msgstr "Email"
 
-#: app.py:132 app.py:137 app.py:179
+#: app.py:219 app.py:224 app.py:266
 msgid "Heslo"
 msgstr "Heslo"
 
-#: app.py:142
+#: app.py:229
 msgid "Poslať link na reset hesla"
 msgstr "Poslať link na reset hesla"
 
-#: app.py:145
+#: app.py:232
 msgid "Nové heslo"
 msgstr "Nové heslo"
 
-#: app.py:146 app.py:151 app.py:172
+#: app.py:233 app.py:238 app.py:259
 msgid "Potvrdiť heslo"
 msgstr "Potvrdiť heslo"
 
-#: app.py:147
+#: app.py:234
 msgid "Nastaviť nové heslo"
 msgstr "Nastaviť nové heslo"
 
-#: app.py:150
+#: app.py:237 app.py:239
 msgid "Nové rodinné heslo"
 msgstr "Nové rodinné heslo"
 
-#: app.py:152
+#: app.py:240
 msgid "Nastaviť heslo"
 msgstr "Nastaviť heslo"
 
-#: app.py:155
+#: app.py:243
 msgid "Meno"
 msgstr "Meno"
 
-#: app.py:156
+#: app.py:244
 msgid "Vek"
 msgstr "Vek"
 
-#: app.py:157 app.py:167 app.py:175 app.py:180
+#: app.py:245
 msgid "Uložiť"
 msgstr "Uložiť"
 
-#: app.py:160
+#: app.py:248
 msgid "Názov darčeka"
 msgstr "Názov darčeka"
 
-#: app.py:161
+#: app.py:249
 msgid "Popis"
 msgstr "Popis"
 
-#: app.py:162
+#: app.py:250
 msgid "Link 1"
 msgstr "Link 1"
 
-#: app.py:163
+#: app.py:251
 msgid "Link 2"
 msgstr "Link 2"
 
-#: app.py:164
+#: app.py:252
 msgid "URL obrázka"
 msgstr "URL obrázka"
 
-#: app.py:165
+#: app.py:253
 msgid "Cenové rozpätie"
 msgstr "Cenové rozpätie"
 
-#: app.py:166
+#: app.py:254
 msgid "Mena"
 msgstr "Mena"
 
-#: app.py:170
+#: app.py:258
 msgid "Názov rodiny"
 msgstr "Názov rodiny"
 
-#: app.py:173
+#: app.py:260
 msgid "Email správcu"
 msgstr "Email správcu"
 
-#: app.py:174
+#: app.py:261
 msgid "Heslo správcu"
 msgstr "Heslo správcu"
 
-#: app.py:175
+#: app.py:262
 msgid "Vytvoriť rodinu"
 msgstr "Vytvoriť rodinu"
 
-#: templates/base.html:7
+#: templates/base.html:7 templates/base.html:13 templates/login.html:9
 msgid "Rodinný Zoznam Darčekov"
 msgstr "Rodinný Zoznam Darčekov"
 
@@ -134,17 +133,13 @@ msgstr "Odhlásiť sa"
 msgid "Prihlásiť sa ako Správca"
 msgstr "Prihlásiť sa ako Správca"
 
-#: templates/base.html:45
+#: templates/base.html:52
 msgid "Vyrobené s ❤️ pre rodinu"
 msgstr "Vyrobené s ❤️ pre rodinu"
 
 #: templates/login.html:3
 msgid "Prihlásenie - Rodinný Zoznam Darčekov"
 msgstr "Prihlásenie - Rodinný Zoznam Darčekov"
-
-#: templates/login.html:9
-msgid "🎁 Rodinný Zoznam Darčekov"
-msgstr "🎁 Rodinný Zoznam Darčekov"
 
 #: templates/login.html:10
 msgid "Zadajte heslo pre prístup"
@@ -158,114 +153,6 @@ msgstr "Heslo:"
 msgid "Zadajte heslo"
 msgstr "Zadajte heslo"
 
-#: templates/login.html:32
-msgid "Prihlásiť sa"
-msgstr "Prihlásiť sa"
-
 #: templates/login.html:37
 msgid "Pre prístup k zoznamu darčekov zadajte rodinné heslo."
 msgstr "Pre prístup k zoznamu darčekov zadajte rodinné heslo."
-
-#: templates/admin/child_form.html:3
-msgid "Upraviť Dieťa"
-msgstr "Upraviť Dieťa"
-
-#: templates/admin/child_form.html:3
-msgid "Pridať Dieťa"
-msgstr "Pridať Dieťa"
-
-#: templates/admin/child_form.html:7
-msgid "← Späť na Správny Panel"
-msgstr "← Späť na Správny Panel"
-
-#: templates/admin/child_form.html:8
-msgid "Upraviť Dieťa"
-msgstr "Upraviť Dieťa"
-
-#: templates/admin/child_form.html:8
-msgid "Pridať Nové Dieťa"
-msgstr "Pridať Nové Dieťa"
-
-#: templates/admin/child_form.html:17
-msgid "Zadajte meno dieťaťa"
-msgstr "Zadajte meno dieťaťa"
-
-#: templates/admin/child_form.html:29
-msgid "Zadajte vek"
-msgstr "Zadajte vek"
-
-#: templates/admin/child_form.html:41
-msgid "Zrušiť"
-msgstr "Zrušiť"
-
-#: templates/admin/gift_form.html:3
-msgid "Upraviť Darček"
-msgstr "Upraviť Darček"
-
-#: templates/admin/gift_form.html:3
-msgid "Pridať Darček"
-msgstr "Pridať Darček"
-
-#: templates/admin/gift_form.html:7
-msgid "← Späť na Darceky"
-msgstr "← Späť na Darceky"
-
-#: templates/admin/gift_form.html:8
-msgid "Upraviť Darček"
-msgstr "Upraviť Darček"
-
-#: templates/admin/gift_form.html:8
-msgid "Pridať Nový Darček"
-msgstr "Pridať Nový Darček"
-
-#: templates/admin/gift_form.html:17
-msgid "napr. LEGO Vesmirna Stanica"
-msgstr "napr. LEGO Vesmírna Stanica"
-
-#: templates/admin/gift_form.html:29
-msgid "Pridajte detaily o darčeku, veľkosť, farbu, atď."
-msgstr "Pridajte detaily o darčeku, veľkosť, farbu, atď."
-
-#: templates/superadmin/admin_form.html:3
-msgid "Upraviť správcu"
-msgstr "Upraviť správcu"
-
-#: templates/superadmin/admin_form.html:3
-msgid "Pridať správcu"
-msgstr "Pridať správcu"
-
-#: templates/superadmin/admin_form.html:8
-msgid "← Späť na správcov"
-msgstr "← Späť na správcov"
-
-#: templates/superadmin/admin_form.html:9
-msgid "Odhlásiť sa"
-msgstr "Odhlásiť sa"
-
-#: templates/superadmin/admin_form.html:13
-msgid "✏️ Upraviť správcu"
-msgstr "✏️ Upraviť správcu"
-
-#: templates/superadmin/admin_form.html:15
-msgid "➕ Pridať nového správcu"
-msgstr "➕ Pridať nového správcu"
-
-#: templates/superadmin/admin_form.html:18
-msgid "Rodina:"
-msgstr "Rodina:"
-
-#: templates/superadmin/admin_form.html:27
-msgid "admin@example.com"
-msgstr "admin@example.com"
-
-#: templates/superadmin/admin_form.html:39
-msgid "Zadajte nové heslo (voliteľné)"
-msgstr "Zadajte nové heslo (voliteľné)"
-
-#: templates/superadmin/admin_form.html:39
-msgid "Zadajte heslo"
-msgstr "Zadajte heslo"
-
-#: templates/superadmin/admin_form.html:48
-msgid "Ak necháte prázdne, heslo zostane nezmenené"
-msgstr "Ak necháte prázdne, heslo zostane nezmenené"

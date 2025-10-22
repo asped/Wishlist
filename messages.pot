@@ -1,603 +1,158 @@
-# Translations template for PROJECT.
-# Copyright (C) 2025 ORGANIZATION
-# This file is distributed under the same license as the PROJECT project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+# Slovak translations for Wishlist App.
+# Copyright (C) 2025 Wishlist App
+# This file is distributed under the same license as the Wishlist App project.
 #
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PROJECT VERSION\n"
-"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-10-15 10:50+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"Project-Id-Version: Wishlist App 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-10-23 00:54+0200\n"
+"PO-Revision-Date: 2025-10-23 00:54+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=((n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2);\n"
 "Generated-By: Babel 2.17.0\n"
 
-#: app.py:127 app.py:171
+#: app.py:214 app.py:258
 msgid "Rodinné heslo"
-msgstr ""
+msgstr "Rodinné heslo"
 
-#: app.py:128 app.py:133 app.py:138
+#: app.py:215 app.py:220 app.py:225 templates/login.html:32
 msgid "Prihlásiť sa"
-msgstr ""
+msgstr "Prihlásiť sa"
 
-#: app.py:131 app.py:136 app.py:141 app.py:178
+#: app.py:218 app.py:223 app.py:228 app.py:265
 msgid "Email"
-msgstr ""
+msgstr "Email"
 
-#: app.py:132 app.py:137 app.py:179
+#: app.py:219 app.py:224 app.py:266
 msgid "Heslo"
-msgstr ""
+msgstr "Heslo"
 
-#: app.py:142
+#: app.py:229
 msgid "Poslať link na reset hesla"
-msgstr ""
+msgstr "Poslať link na reset hesla"
 
-#: app.py:145
+#: app.py:232
 msgid "Nové heslo"
-msgstr ""
+msgstr "Nové heslo"
 
-#: app.py:146 app.py:151 app.py:172
+#: app.py:233 app.py:238 app.py:259
 msgid "Potvrdiť heslo"
-msgstr ""
+msgstr "Potvrdiť heslo"
 
-#: app.py:147
+#: app.py:234
 msgid "Nastaviť nové heslo"
-msgstr ""
+msgstr "Nastaviť nové heslo"
 
-#: app.py:150
+#: app.py:237 app.py:239
 msgid "Nové rodinné heslo"
-msgstr ""
+msgstr "Nové rodinné heslo"
 
-#: app.py:152
+#: app.py:240
 msgid "Nastaviť heslo"
-msgstr ""
+msgstr "Nastaviť heslo"
 
-#: app.py:155
+#: app.py:243
 msgid "Meno"
-msgstr ""
+msgstr "Meno"
 
-#: app.py:156
+#: app.py:244
 msgid "Vek"
-msgstr ""
+msgstr "Vek"
 
-#: app.py:157 app.py:167 app.py:180
+#: app.py:245
 msgid "Uložiť"
-msgstr ""
+msgstr "Uložiť"
 
-#: app.py:160
+#: app.py:248
 msgid "Názov darčeka"
-msgstr ""
+msgstr "Názov darčeka"
 
-#: app.py:161
+#: app.py:249
 msgid "Popis"
-msgstr ""
+msgstr "Popis"
 
-#: app.py:162
+#: app.py:250
 msgid "Link 1"
-msgstr ""
+msgstr "Link 1"
 
-#: app.py:163
+#: app.py:251
 msgid "Link 2"
-msgstr ""
+msgstr "Link 2"
 
-#: app.py:164
+#: app.py:252
 msgid "URL obrázka"
-msgstr ""
+msgstr "URL obrázka"
 
-#: app.py:165
+#: app.py:253
 msgid "Cenové rozpätie"
-msgstr ""
+msgstr "Cenové rozpätie"
 
-#: app.py:166
+#: app.py:254
 msgid "Mena"
-msgstr ""
+msgstr "Mena"
 
-#: app.py:170
+#: app.py:258
 msgid "Názov rodiny"
-msgstr ""
+msgstr "Názov rodiny"
 
-#: app.py:173
+#: app.py:260
 msgid "Email správcu"
-msgstr ""
+msgstr "Email správcu"
 
-#: app.py:174
+#: app.py:261
 msgid "Heslo správcu"
-msgstr ""
+msgstr "Heslo správcu"
 
-#: app.py:175
+#: app.py:262
 msgid "Vytvoriť rodinu"
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/click/_termui_impl.py:608
-#, python-brace-format
-msgid "{editor}: Editing failed"
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/click/_termui_impl.py:612
-#, python-brace-format
-msgid "{editor}: Editing failed: {e}"
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/click/core.py:1104
-#: venv/lib/python3.13/site-packages/click/core.py:1141
-#, python-brace-format
-msgid "{text} {deprecated_message}"
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/click/core.py:1160
-msgid "Options"
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/click/core.py:1222
-#, python-brace-format
-msgid "Got unexpected extra argument ({args})"
-msgid_plural "Got unexpected extra arguments ({args})"
-msgstr[0] ""
-msgstr[1] ""
-
-#: venv/lib/python3.13/site-packages/click/core.py:1241
-#, python-brace-format
-msgid "DeprecationWarning: The command {name!r} is deprecated.{extra_message}"
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/click/core.py:1425
-msgid "Aborted!"
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/click/core.py:1799
-msgid "Commands"
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/click/core.py:1830
-msgid "Missing command."
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/click/core.py:1908
-#, python-brace-format
-msgid "No such command {name!r}."
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/click/core.py:2332
-msgid "Value must be an iterable."
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/click/core.py:2355
-#, python-brace-format
-msgid "Takes {nargs} values but 1 was given."
-msgid_plural "Takes {nargs} values but {len} were given."
-msgstr[0] ""
-msgstr[1] ""
-
-#: venv/lib/python3.13/site-packages/click/core.py:2505
-#, python-brace-format
-msgid ""
-"DeprecationWarning: The {param_type} {name!r} is "
-"deprecated.{extra_message}"
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/click/core.py:2956
-#, python-brace-format
-msgid "env var: {var}"
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/click/core.py:2959
-#, python-brace-format
-msgid "default: {default}"
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/click/core.py:2963
-msgid "required"
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/click/core.py:3023
-msgid "(dynamic)"
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/click/decorators.py:465
-#, python-format
-msgid "%(prog)s, version %(version)s"
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/click/decorators.py:522
-msgid "Show the version and exit."
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/click/decorators.py:548
-msgid "Show this message and exit."
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/click/exceptions.py:50
-#: venv/lib/python3.13/site-packages/click/exceptions.py:89
-#, python-brace-format
-msgid "Error: {message}"
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/click/exceptions.py:81
-#, python-brace-format
-msgid "Try '{command} {option}' for help."
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/click/exceptions.py:130
-#, python-brace-format
-msgid "Invalid value: {message}"
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/click/exceptions.py:132
-#, python-brace-format
-msgid "Invalid value for {param_hint}: {message}"
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/click/exceptions.py:190
-msgid "Missing argument"
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/click/exceptions.py:192
-msgid "Missing option"
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/click/exceptions.py:194
-msgid "Missing parameter"
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/click/exceptions.py:196
-#, python-brace-format
-msgid "Missing {param_type}"
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/click/exceptions.py:203
-#, python-brace-format
-msgid "Missing parameter: {param_name}"
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/click/exceptions.py:223
-#, python-brace-format
-msgid "No such option: {name}"
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/click/exceptions.py:235
-#, python-brace-format
-msgid "Did you mean {possibility}?"
-msgid_plural "(Possible options: {possibilities})"
-msgstr[0] ""
-msgstr[1] ""
-
-#: venv/lib/python3.13/site-packages/click/exceptions.py:282
-msgid "unknown error"
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/click/exceptions.py:289
-#, python-brace-format
-msgid "Could not open file {filename!r}: {message}"
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/click/formatting.py:156
-msgid "Usage:"
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/click/parser.py:199
-#, python-brace-format
-msgid "Argument {name!r} takes {nargs} values."
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/click/parser.py:381
-#, python-brace-format
-msgid "Option {name!r} does not take a value."
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/click/parser.py:444
-#, python-brace-format
-msgid "Option {name!r} requires an argument."
-msgid_plural "Option {name!r} requires {nargs} arguments."
-msgstr[0] ""
-msgstr[1] ""
-
-#: venv/lib/python3.13/site-packages/click/shell_completion.py:332
-msgid "Shell completion is not supported for Bash versions older than 4.4."
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/click/shell_completion.py:339
-msgid "Couldn't detect Bash version, shell completion is not supported."
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/click/termui.py:162
-msgid "Repeat for confirmation"
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/click/termui.py:178
-msgid "Error: The value you entered was invalid."
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/click/termui.py:180
-#, python-brace-format
-msgid "Error: {e.message}"
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/click/termui.py:191
-msgid "Error: The two entered values do not match."
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/click/termui.py:247
-msgid "Error: invalid input"
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/click/termui.py:866
-msgid "Press any key to continue..."
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/click/types.py:332
-#, python-brace-format
-msgid ""
-"Choose from:\n"
-"\t{choices}"
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/click/types.py:369
-#, python-brace-format
-msgid "{value!r} is not {choice}."
-msgid_plural "{value!r} is not one of {choices}."
-msgstr[0] ""
-msgstr[1] ""
-
-#: venv/lib/python3.13/site-packages/click/types.py:460
-#, python-brace-format
-msgid "{value!r} does not match the format {format}."
-msgid_plural "{value!r} does not match the formats {formats}."
-msgstr[0] ""
-msgstr[1] ""
-
-#: venv/lib/python3.13/site-packages/click/types.py:482
-#, python-brace-format
-msgid "{value!r} is not a valid {number_type}."
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/click/types.py:538
-#, python-brace-format
-msgid "{value} is not in the range {range}."
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/click/types.py:719
-#, python-brace-format
-msgid "{value!r} is not a valid boolean. Recognized values: {states}"
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/click/types.py:747
-#, python-brace-format
-msgid "{value!r} is not a valid UUID."
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/click/types.py:937
-msgid "file"
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/click/types.py:939
-msgid "directory"
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/click/types.py:941
-msgid "path"
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/click/types.py:988
-#, python-brace-format
-msgid "{name} {filename!r} does not exist."
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/click/types.py:997
-#, python-brace-format
-msgid "{name} {filename!r} is a file."
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/click/types.py:1005
-#, python-brace-format
-msgid "{name} {filename!r} is a directory."
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/click/types.py:1014
-#, python-brace-format
-msgid "{name} {filename!r} is not readable."
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/click/types.py:1023
-#, python-brace-format
-msgid "{name} {filename!r} is not writable."
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/click/types.py:1032
-#, python-brace-format
-msgid "{name} {filename!r} is not executable."
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/click/types.py:1099
-#, python-brace-format
-msgid "{len_type} values are required, but {len_value} was given."
-msgid_plural "{len_type} values are required, but {len_value} were given."
-msgstr[0] ""
-msgstr[1] ""
-
-#: venv/lib/python3.13/site-packages/flask_wtf/file.py:55
-#: venv/lib/python3.13/site-packages/wtforms/validators.py:293
-#: venv/lib/python3.13/site-packages/wtforms/validators.py:323
-msgid "This field is required."
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/flask_wtf/file.py:94
-#, python-brace-format
-msgid "File does not have an approved extension: {extensions}"
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/flask_wtf/file.py:101
-msgid "File does not have an approved extension."
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/flask_wtf/file.py:140
-#, python-brace-format
-msgid "File must be between {min_size} and {max_size} bytes."
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/wtforms/validators.py:86
-#, python-format
-msgid "Invalid field name '%s'."
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/wtforms/validators.py:99
-#, python-format
-msgid "Field must be equal to %(other_name)s."
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/wtforms/validators.py:146
-#, python-format
-msgid "Field must be at least %(min)d character long."
-msgid_plural "Field must be at least %(min)d characters long."
-msgstr[0] ""
-msgstr[1] ""
-
-#: venv/lib/python3.13/site-packages/wtforms/validators.py:152
-#, python-format
-msgid "Field cannot be longer than %(max)d character."
-msgid_plural "Field cannot be longer than %(max)d characters."
-msgstr[0] ""
-msgstr[1] ""
-
-#: venv/lib/python3.13/site-packages/wtforms/validators.py:158
-#, python-format
-msgid "Field must be exactly %(max)d character long."
-msgid_plural "Field must be exactly %(max)d characters long."
-msgstr[0] ""
-msgstr[1] ""
-
-#: venv/lib/python3.13/site-packages/wtforms/validators.py:164
-#, python-format
-msgid "Field must be between %(min)d and %(max)d characters long."
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/wtforms/validators.py:216
-#, python-format
-msgid "Number must be at least %(min)s."
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/wtforms/validators.py:219
-#, python-format
-msgid "Number must be at most %(max)s."
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/wtforms/validators.py:222
-#, python-format
-msgid "Number must be between %(min)s and %(max)s."
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/wtforms/validators.py:358
-msgid "Invalid input."
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/wtforms/validators.py:422
-msgid "Invalid email address."
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/wtforms/validators.py:460
-msgid "Invalid IP address."
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/wtforms/validators.py:503
-msgid "Invalid Mac address."
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/wtforms/validators.py:540
-msgid "Invalid URL."
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/wtforms/validators.py:561
-msgid "Invalid UUID."
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/wtforms/validators.py:594
-#, python-format
-msgid "Invalid value, must be one of: %(values)s."
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/wtforms/validators.py:629
-#, python-format
-msgid "Invalid value, can't be any of: %(values)s."
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/wtforms/validators.py:698
-msgid "This field cannot be edited"
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/wtforms/validators.py:714
-msgid "This field is disabled and cannot have a value"
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/wtforms/csrf/core.py:96
-msgid "Invalid CSRF Token."
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/wtforms/csrf/session.py:63
-msgid "CSRF token missing."
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/wtforms/csrf/session.py:71
-msgid "CSRF failed."
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/wtforms/csrf/session.py:76
-msgid "CSRF token expired."
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/wtforms/fields/choices.py:141
-msgid "Invalid Choice: could not coerce."
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/wtforms/fields/choices.py:148
-#: venv/lib/python3.13/site-packages/wtforms/fields/choices.py:202
-msgid "Choices cannot be None."
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/wtforms/fields/choices.py:154
-msgid "Not a valid choice."
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/wtforms/fields/choices.py:193
-msgid "Invalid choice(s): one or more data inputs could not be coerced."
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/wtforms/fields/choices.py:209
-#, python-format
-msgid "'%(value)s' is not a valid choice for this field."
-msgid_plural "'%(value)s' are not valid choices for this field."
-msgstr[0] ""
-msgstr[1] ""
-
-#: venv/lib/python3.13/site-packages/wtforms/fields/datetime.py:51
-msgid "Not a valid datetime value."
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/wtforms/fields/datetime.py:77
-msgid "Not a valid date value."
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/wtforms/fields/datetime.py:103
-msgid "Not a valid time value."
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/wtforms/fields/datetime.py:148
-msgid "Not a valid week value."
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/wtforms/fields/numeric.py:82
-#: venv/lib/python3.13/site-packages/wtforms/fields/numeric.py:92
-msgid "Not a valid integer value."
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/wtforms/fields/numeric.py:168
-msgid "Not a valid decimal value."
-msgstr ""
-
-#: venv/lib/python3.13/site-packages/wtforms/fields/numeric.py:197
-msgid "Not a valid float value."
-msgstr ""
-
+msgstr "Vytvoriť rodinu"
+
+#: templates/base.html:7 templates/base.html:13 templates/login.html:9
+msgid "Rodinný Zoznam Darčekov"
+msgstr "Rodinný Zoznam Darčekov"
+
+#: templates/base.html:16
+msgid "Zoznamy Darčekov"
+msgstr "Zoznamy Darčekov"
+
+#: templates/base.html:18
+msgid "Správa"
+msgstr "Správa"
+
+#: templates/base.html:20
+msgid "Odhlásiť sa"
+msgstr "Odhlásiť sa"
+
+#: templates/base.html:23
+msgid "Prihlásiť sa ako Správca"
+msgstr "Prihlásiť sa ako Správca"
+
+#: templates/base.html:52
+msgid "Vyrobené s ❤️ pre rodinu"
+msgstr "Vyrobené s ❤️ pre rodinu"
+
+#: templates/login.html:3
+msgid "Prihlásenie - Rodinný Zoznam Darčekov"
+msgstr "Prihlásenie - Rodinný Zoznam Darčekov"
+
+#: templates/login.html:10
+msgid "Zadajte heslo pre prístup"
+msgstr "Zadajte heslo pre prístup"
+
+#: templates/login.html:21
+msgid "Heslo:"
+msgstr "Heslo:"
+
+#: templates/login.html:26
+msgid "Zadajte heslo"
+msgstr "Zadajte heslo"
+
+#: templates/login.html:37
+msgid "Pre prístup k zoznamu darčekov zadajte rodinné heslo."
+msgstr "Pre prístup k zoznamu darčekov zadajte rodinné heslo."
