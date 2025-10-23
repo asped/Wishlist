@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify, session, flash, current_app
 from flask_sqlalchemy import SQLAlchemy
-from flask_mail import Mail, Message
 from flask_wtf import FlaskForm, CSRFProtect
 from wtforms import StringField, PasswordField, EmailField, TextAreaField, SelectField, SubmitField, HiddenField
 from wtforms.validators import DataRequired, Email, Length, EqualTo, ValidationError
@@ -15,6 +14,10 @@ import requests
 from urllib.parse import urljoin, urlparse
 from urllib.parse import urlparse
 import mimetypes
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 def validate_image_url(url):
     """
@@ -97,18 +100,21 @@ def validate_image_url(url):
     return True, None
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///wishlist.db'
+
+# Database configuration
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///wishlist.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+# Security configuration
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'your-secret-key-change-in-production')
-app.config['MAIL_SERVER'] = os.environ.get('MAIL_SERVER', 'smtp.gmail.com')
-app.config['MAIL_PORT'] = int(os.environ.get('MAIL_PORT', 587))
-app.config['MAIL_USE_TLS'] = os.environ.get('MAIL_USE_TLS', 'true').lower() in ['true', 'on', '1']
-app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME')
-app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')
-app.config['MAIL_DEFAULT_SENDER'] = os.environ.get('MAIL_DEFAULT_SENDER', 'noreply@wishlist.com')
+
+# Email configuration (Brevo API only - no SMTP needed)
+
+# Flask environment configuration
+app.config['ENV'] = os.environ.get('FLASK_ENV', 'production')
+app.config['DEBUG'] = os.environ.get('FLASK_DEBUG', 'False').lower() in ['true', 'on', '1']
 
 db = SQLAlchemy(app)
-mail = Mail(app)
 csrf = CSRFProtect(app)
 
 # Database Models
@@ -812,4 +818,7 @@ def superadmin_restore_gift(gift_id):
     return redirect(url_for('superadmin_deleted_gifts'))
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5001)
+    host = os.environ.get('HOST', '0.0.0.0')
+    port = int(os.environ.get('PORT', 5001))
+    debug = os.environ.get('FLASK_DEBUG', 'False').lower() in ['true', 'on', '1']
+    app.run(debug=debug, host=host, port=port)

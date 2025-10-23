@@ -87,39 +87,70 @@ To make the app available to family members on your local network:
 
 ## 🔐 Production Considerations
 
-Before deploying to production, update these settings in `app.py`:
+### Environment Variables Setup
 
-1. **Change the Secret Key**:
-   ```python
-   app.config['SECRET_KEY'] = 'your-secure-random-secret-key-here'
+The app now uses environment variables for configuration. Before deploying:
+
+1. **Copy the environment template**:
+   ```bash
+   cp env.template .env
    ```
+
+2. **Configure your `.env` file** with production values:
+   ```bash
+   # Flask Configuration
+   SECRET_KEY=your-secure-random-secret-key-here
+   FLASK_ENV=production
+   FLASK_DEBUG=False
    
-   Generate a secure key:
+   # Database Configuration
+   DATABASE_URL=sqlite:///wishlist.db
+   
+   # Brevo API Configuration (for password reset emails)
+   BREVO_API_KEY=your-brevo-api-key
+   BREVO_SENDER_EMAIL=your-sender-email@domain.com
+   BREVO_SENDER_NAME=Wishlist App
+   
+   # Server Configuration
+   HOST=0.0.0.0
+   PORT=5001
+   ```
+
+3. **Generate a secure secret key**:
    ```python
    python -c "import secrets; print(secrets.token_hex(32))"
    ```
 
-2. **Disable Debug Mode**:
-   ```python
-   app.run(debug=False, host='0.0.0.0', port=5000)
-   ```
+4. **Set up Brevo API configuration**:
+   - Get API key from your Brevo dashboard
+   - Set up sender email address in Brevo
 
-3. **Use Environment Variables**:
-   ```python
-   import os
-   app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'fallback-key')
-   ```
+### Platform-Specific Environment Setup
 
-4. **Consider Adding Authentication** for the admin routes:
-   ```python
-   from flask_httpauth import HTTPBasicAuth
-   # Add basic auth to admin routes
-   ```
+#### Heroku
+```bash
+heroku config:set SECRET_KEY=your-secret-key
+heroku config:set BREVO_API_KEY=your-brevo-key
+heroku config:set BREVO_SENDER_EMAIL=your-sender-email@domain.com
+```
 
-5. **Use a Production Database** (for platforms that restart frequently):
-   - PostgreSQL
-   - MySQL
-   - Or use persistent storage for SQLite
+#### Railway
+Add environment variables in the Railway dashboard under your project settings.
+
+#### Render
+Add environment variables in the Render dashboard under "Environment".
+
+#### PythonAnywhere
+Add environment variables in the Web tab under "Environment variables".
+
+### Security Checklist
+
+- ✅ Change the default secret key
+- ✅ Disable debug mode in production
+- ✅ Use environment variables for sensitive data
+- ✅ Set up Brevo API configuration
+- ✅ Use HTTPS in production
+- ✅ Consider adding additional authentication layers
 
 ## 🌐 Making it Accessible
 
