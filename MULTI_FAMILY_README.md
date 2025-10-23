@@ -42,15 +42,8 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-2. Set up email configuration (optional, for password resets):
-```bash
-export MAIL_SERVER=smtp.gmail.com
-export MAIL_PORT=587
-export MAIL_USE_TLS=true
-export MAIL_USERNAME=your-email@gmail.com
-export MAIL_PASSWORD=your-app-password
-export MAIL_DEFAULT_SENDER=noreply@wishlist.com
-```
+2. Set up email configuration via Brevo (optional, for password resets) in .env
+
 
 3. Run the application:
 ```bash

@@ -24,7 +24,17 @@ A simple and senior-friendly gift list web application perfect for families! Par
    pip install -r requirements.txt
    ```
 
-2. **Create Initial Accounts** (for empty database)
+2. **Set Up Environment Variables** (for production)
+   ```bash
+   # Create .env file from template
+   python setup_env.py create
+   
+   # Or manually copy and edit
+   cp env.template .env
+   # Edit .env with your settings
+   ```
+
+3. **Create Initial Accounts** (for empty database)
    ```bash
    python setup_admin.py
    ```
@@ -33,13 +43,17 @@ A simple and senior-friendly gift list web application perfect for families! Par
    - Initial family (with family password)
    - Admin account (manages gifts and children)
 
-3. **Run the Application**
+4. **Run the Application**
    ```bash
+   # Development
    python app.py
+   
+   # Production (with environment checks)
+   ./start_production.sh
    ```
 
-4. **Access the App**
-   - Visit: http://localhost:5000
+5. **Access the App**
+   - Visit: http://localhost:5001
    - Login with family password to see gift lists
    - Login as admin to manage gifts and children
    - Login as superadmin to manage families

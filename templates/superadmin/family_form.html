@@ -5,7 +5,7 @@
 {% block content %}
 <div class="page-header">
     <h1 class="page-title">➕ Pridať novú rodinu</h1>
-    <p class="page-subtitle">Vytvorte novú rodinu s administrátorom</p>
+    <p class="page-subtitle">Vytvorte novú rodinu</p>
 </div>
 
 <div class="form-container">
@@ -42,30 +42,6 @@
             {% if form.confirm_password.errors %}
                 <div class="form-errors">
                     {% for error in form.confirm_password.errors %}
-                        <span class="error">{{ error }}</span>
-                    {% endfor %}
-                </div>
-            {% endif %}
-        </div>
-        
-        <div class="form-group">
-            {{ form.admin_email.label(class="form-label") }}
-            {{ form.admin_email(class="form-input", placeholder="admin@email.com", required=true) }}
-            {% if form.admin_email.errors %}
-                <div class="form-errors">
-                    {% for error in form.admin_email.errors %}
-                        <span class="error">{{ error }}</span>
-                    {% endfor %}
-                </div>
-            {% endif %}
-        </div>
-        
-        <div class="form-group">
-            {{ form.admin_password.label(class="form-label") }}
-            {{ form.admin_password(class="form-input", placeholder="Heslo správcu", required=true) }}
-            {% if form.admin_password.errors %}
-                <div class="form-errors">
-                    {% for error in form.admin_password.errors %}
                         <span class="error">{{ error }}</span>
                     {% endfor %}
                 </div>

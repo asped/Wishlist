@@ -50,10 +50,10 @@
                     <td>{{ gift.purchased_by if gift.purchased_by else '-' }}</td>
                     <td class="actions-cell">
                         <a href="{{ url_for('admin_edit_gift', gift_id=gift.id) }}" class="btn btn-small btn-secondary">Upraviť</a>
-                        <form method="POST" action="{{ url_for('admin_delete_gift', gift_id=gift.id) }}" style="display: inline;" onsubmit="return confirm('Vymazať tento darček?');">
-                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-                            <button type="submit" class="btn btn-small btn-danger">Vymazať</button>
-                        </form>
+                        {% if gift.is_purchased %}
+                            <button type="button" class="btn btn-small btn-warning" onclick="showConfirmModal('unmark', {{ gift.id }}, '{{ gift.name }}')">Označiť ako Nekúpené</button>
+                        {% endif %}
+                        <button type="button" class="btn btn-small btn-danger" onclick="showConfirmModal('delete', {{ gift.id }}, '{{ gift.name }}')">Vymazať</button>
                     </td>
                 </tr>
                 {% endfor %}
@@ -68,4 +68,105 @@
         <a href="{{ url_for('admin_add_gift', child_id=child.id) }}" class="btn btn-primary">+ Pridať Darček</a>
     </div>
 {% endif %}
+
+<!-- Confirmation Modal -->
+<div id="confirmModal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 id="modalTitle">Potvrdenie</h3>
+            <span class="modal-close" onclick="closeModal()">&times;</span>
+        </div>
+        <div class="modal-body">
+            <p id="modalMessage"></p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" onclick="closeModal()">Zrušiť</button>
+            <button type="button" class="btn btn-primary" id="modalConfirmBtn" onclick="confirmAction()">Potvrdiť</button>
+        </div>
+    </div>
+</div>
+
+<script>
+let currentAction = null;
+let currentGiftId = null;
+let currentGiftName = null;
+
+function showConfirmModal(action, giftId, giftName) {
+    currentAction = action;
+    currentGiftId = giftId;
+    currentGiftName = giftName;
+    
+    if (action === 'delete') {
+        document.getElementById('modalTitle').textContent = 'Vymazať darček';
+        document.getElementById('modalMessage').textContent = `Ste si istí, že chcete vymazať darček "${giftName}"?`;
+        document.getElementById('modalConfirmBtn').textContent = 'Vymazať';
+        document.getElementById('modalConfirmBtn').className = 'btn btn-danger';
+    } else if (action === 'unmark') {
+        document.getElementById('modalTitle').textContent = 'Označiť ako nekúpené';
+        document.getElementById('modalMessage').textContent = `Ste si istí, že chcete označiť darček "${giftName}" ako nekúpený?`;
+        document.getElementById('modalConfirmBtn').textContent = 'Označiť ako nekúpené';
+        document.getElementById('modalConfirmBtn').className = 'btn btn-warning';
+    }
+    
+    showModal();
+}
+
+function confirmAction() {
+    if (currentAction === 'delete') {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = `/admin/gift/${currentGiftId}/delete`;
+        
+        // Add CSRF token
+        const csrfToken = document.querySelector('meta[name=csrf-token]');
+        if (csrfToken) {
+            const csrfInput = document.createElement('input');
+            csrfInput.type = 'hidden';
+            csrfInput.name = 'csrf_token';
+            csrfInput.value = csrfToken.getAttribute('content');
+            form.appendChild(csrfInput);
+        }
+        
+        document.body.appendChild(form);
+        form.submit();
+    } else if (currentAction === 'unmark') {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = `/admin/gift/${currentGiftId}/unmark`;
+        
+        // Add CSRF token
+        const csrfToken = document.querySelector('meta[name=csrf-token]');
+        if (csrfToken) {
+            const csrfInput = document.createElement('input');
+            csrfInput.type = 'hidden';
+            csrfInput.name = 'csrf_token';
+            csrfInput.value = csrfToken.getAttribute('content');
+            form.appendChild(csrfInput);
+        }
+        
+        document.body.appendChild(form);
+        form.submit();
+    }
+    closeModal();
+}
+
+function showModal() {
+    document.getElementById('confirmModal').style.display = 'flex';
+}
+
+function closeModal() {
+    document.getElementById('confirmModal').style.display = 'none';
+    currentAction = null;
+    currentGiftId = null;
+    currentGiftName = null;
+}
+
+// Close modal when clicking outside
+window.onclick = function(event) {
+    const modal = document.getElementById('confirmModal');
+    if (event.target === modal) {
+        closeModal();
+    }
+}
+</script>
 {% endblock %}

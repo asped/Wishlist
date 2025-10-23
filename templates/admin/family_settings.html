@@ -13,8 +13,20 @@
         {{ form.hidden_tag() }}
         
         <div class="form-group">
+            {{ form.current_password.label(class="form-label") }}
+            {{ form.current_password(class="form-input", placeholder="Súčasné rodinné heslo", required=true, autofocus=true) }}
+            {% if form.current_password.errors %}
+                <div class="form-errors">
+                    {% for error in form.current_password.errors %}
+                        <span class="error">{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
             {{ form.password.label(class="form-label") }}
-            {{ form.password(class="form-input", placeholder="Nové rodinné heslo", required=true, autofocus=true) }}
+            {{ form.password(class="form-input", placeholder="Nové rodinné heslo", required=true) }}
             {% if form.password.errors %}
                 <div class="form-errors">
                     {% for error in form.password.errors %}

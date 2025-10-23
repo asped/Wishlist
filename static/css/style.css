@@ -65,20 +65,20 @@ body {
     transform: translateY(-1px);
 }
 
-.admin-button {
-    background-color: #e74c3c;
+.admin-button, .wishlist-button {
+    background-color: #3498db;
 }
 
-.admin-button:hover {
-    background-color: #c0392b;
+.admin-button:hover, .wishlist-button:hover {
+    background-color: #2980b9;
 }
 
 .logout-button {
-    background-color: #e74c3c;
+    background-color: #95a5a6;
 }
 
 .logout-button:hover {
-    background-color: #c0392b;
+    background-color: #7f8c8d;
 }
 
 /* Mobile Navigation */
@@ -451,21 +451,25 @@ main {
 }
 
 .status-badge {
-    padding: 12px 24px;
-    border-radius: 8px;
-    font-size: 20px;
-    font-weight: bold;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
     white-space: nowrap;
+    display: inline-block;
+    border: 2px solid;
 }
 
 .status-available {
-    background-color: #27ae60;
-    color: white;
+    background-color: #e8f5e8;
+    color: #27ae60;
+    border-color: #27ae60;
 }
 
 .status-purchased {
-    background-color: #95a5a6;
-    color: white;
+    background-color: #f4f4f4;
+    color: #7f8c8d;
+    border-color: #bdc3c7;
 }
 
 .gift-image-container {

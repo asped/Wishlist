@@ -17,22 +17,18 @@
     <div class="stat-card">
         <div class="stat-icon">👶</div>
         <div class="stat-number">{{ total_children }}</div>
-        <div class="stat-label">Celkom detí</div>
+        <div class="stat-label">Celkom členov rodiny</div>
     </div>
     <div class="stat-card">
         <div class="stat-icon">🎁</div>
         <div class="stat-number">{{ total_gifts }}</div>
         <div class="stat-label">Celkom darčekov</div>
     </div>
-    <div class="stat-card">
-        <div class="stat-icon">👤</div>
-        <div class="stat-number">{{ total_admins }}</div>
-        <div class="stat-label">Aktívni správcovia</div>
-    </div>
 </div>
 
 <div class="admin-actions">
     <a href="{{ url_for('superadmin_add_family') }}" class="btn btn-primary">➕ Pridať novú rodinu</a>
+    <a href="{{ url_for('superadmin_deleted_gifts') }}" class="btn btn-warning">🗑️ Obnovené Darceky</a>
     <a href="{{ url_for('superadmin_logout') }}" class="btn btn-secondary">Odhlásiť sa</a>
 </div>
 
@@ -44,9 +40,8 @@
                 <thead>
                     <tr>
                         <th>Názov rodiny</th>
-                        <th>Počet detí</th>
+                        <th>Počet členov</th>
                         <th>Počet darčekov</th>
-                        <th>Počet správcov</th>
                         <th>Vytvorené</th>
                         <th>Akcie</th>
                     </tr>
@@ -57,10 +52,8 @@
                         <td>{{ family.name }}</td>
                         <td>{{ family.children|length }}</td>
                         <td>{{ family.children|map(attribute='gifts')|map('length')|sum }}</td>
-                        <td>{{ family.admin_users|length }}</td>
                         <td>{{ family.created_at.strftime('%d.%m.%Y') }}</td>
                         <td>
-                            <a href="{{ url_for('superadmin_family_admins', family_id=family.id) }}" class="btn btn-small btn-info">Správcovia</a>
                             <form method="POST" action="{{ url_for('superadmin_reset_family_password', family_id=family.id) }}" style="display: inline;">
                                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                                 <button type="submit" class="btn btn-small btn-warning" onclick="return confirm('Naozaj chcete resetovať heslo tejto rodiny?')">Reset hesla</button>
