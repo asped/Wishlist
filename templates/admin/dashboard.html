@@ -6,7 +6,7 @@
 <div class="page-header">
     <h1 class="page-title">Správny Panel</h1>
     <div class="admin-actions">
-        <a href="{{ url_for('admin_add_child') }}" class="btn btn-primary">+ Pridať Nové Dieťa</a>
+        <a href="{{ url_for('admin_add_child') }}" class="btn btn-primary">+ Pridať Nového Člena Rodiny</a>
         <a href="{{ url_for('admin_family_settings') }}" class="btn btn-secondary">⚙️ Nastavenia rodiny</a>
     </div>
 </div>
@@ -16,7 +16,7 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>Meno Dieťaťa</th>
+                    <th>Meno Člena Rodiny</th>
                     <th>Vek</th>
                     <th>Celkovo Darčekov</th>
                     <th>Dostupné</th>
@@ -48,9 +48,9 @@
 {% else %}
     <div class="empty-state">
         <div class="empty-icon">👶</div>
-        <h2>Zatiaľ Žiadne Deti</h2>
-        <p>Pridajte prvé dieťa, aby ste začali spravovať zoznamy darčekov</p>
-        <a href="{{ url_for('admin_add_child') }}" class="btn btn-primary">+ Pridať Dieťa</a>
+        <h2>Zatiaľ Žiadni Členovia Rodiny</h2>
+        <p>Pridajte prvého člena rodiny, aby ste začali spravovať zoznamy darčekov</p>
+        <a href="{{ url_for('admin_add_child') }}" class="btn btn-primary">+ Pridať Člena Rodiny</a>
     </div>
 {% endif %}
 {% endblock %}

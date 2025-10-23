@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+
+{% block title %}Obnovené Darceky - SuperAdmin{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <a href="{{ url_for('superadmin_dashboard') }}" class="back-link">← Späť na SuperAdmin Panel</a>
+    <h1 class="page-title">🗑️ Obnovené Darceky</h1>
+    <p class="page-subtitle">Zoznam všetkých zmazaných darčekov, ktoré môžu byť obnovené</p>
+</div>
+
+{% if gifts %}
+    <div class="admin-table">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Obrázok</th>
+                    <th>Názov Darčeka</th>
+                    <th>Člen Rodiny</th>
+                    <th>Rodina</th>
+                    <th>Zmazané</th>
+                    <th>Akcie</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for gift in gifts %}
+                <tr>
+                    <td class="gift-image-cell">
+                        {% if gift.image_url %}
+                            <img src="{{ gift.image_url }}" alt="{{ gift.name }}" class="gift-image-tile" onerror="this.style.display='none'">
+                        {% else %}
+                            <div class="gift-image-placeholder">📦</div>
+                        {% endif %}
+                    </td>
+                    <td class="gift-name-cell">{{ gift.name }}</td>
+                    <td>{{ gift.child.name }}</td>
+                    <td>{{ gift.child.family.name }}</td>
+                    <td>{{ gift.deleted_at.strftime('%d.%m.%Y %H:%M') if gift.deleted_at else 'Neznáme' }}</td>
+                    <td class="actions-cell">
+                        <button type="button" class="btn btn-small btn-success" onclick="showConfirmModal('restore', {{ gift.id }}, '{{ gift.name }}')">Obnoviť</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    <div class="empty-state">
+        <div class="empty-icon">🗑️</div>
+        <h2>Žiadne Zmazané Darceky</h2>
+        <p>Všetky darceky sú aktívne</p>
+    </div>
+{% endif %}
+
+<!-- Confirmation Modal -->
+<div id="confirmModal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 id="modalTitle">Potvrdenie</h3>
+            <span class="modal-close" onclick="closeModal()">&times;</span>
+        </div>
+        <div class="modal-body">
+            <p id="modalMessage"></p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" onclick="closeModal()">Zrušiť</button>
+            <button type="button" class="btn btn-primary" id="modalConfirmBtn" onclick="confirmAction()">Potvrdiť</button>
+        </div>
+    </div>
+</div>
+
+<script>
+let currentAction = null;
+let currentGiftId = null;
+let currentGiftName = null;
+
+function showConfirmModal(action, giftId, giftName) {
+    currentAction = action;
+    currentGiftId = giftId;
+    currentGiftName = giftName;
+    
+    if (action === 'restore') {
+        document.getElementById('modalTitle').textContent = 'Obnoviť darček';
+        document.getElementById('modalMessage').textContent = `Ste si istí, že chcete obnoviť darček "${giftName}"?`;
+        document.getElementById('modalConfirmBtn').textContent = 'Obnoviť';
+        document.getElementById('modalConfirmBtn').className = 'btn btn-success';
+    }
+    
+    showModal();
+}
+
+function confirmAction() {
+    if (currentAction === 'restore') {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = `/superadmin/gift/${currentGiftId}/restore`;
+        
+        // Add CSRF token
+        const csrfToken = document.querySelector('meta[name=csrf-token]');
+        if (csrfToken) {
+            const csrfInput = document.createElement('input');
+            csrfInput.type = 'hidden';
+            csrfInput.name = 'csrf_token';
+            csrfInput.value = csrfToken.getAttribute('content');
+            form.appendChild(csrfInput);
+        }
+        
+        document.body.appendChild(form);
+        form.submit();
+    }
+    closeModal();
+}
+
+function showModal() {
+    document.getElementById('confirmModal').style.display = 'flex';
+}
+
+function closeModal() {
+    document.getElementById('confirmModal').style.display = 'none';
+    currentAction = null;
+    currentGiftId = null;
+    currentGiftName = null;
+}
+
+// Close modal when clicking outside
+window.onclick = function(event) {
+    const modal = document.getElementById('confirmModal');
+    if (event.target === modal) {
+        closeModal();
+    }
+}
+</script>
+{% endblock %}

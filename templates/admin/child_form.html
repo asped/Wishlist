@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 
-{% block title %}{% if child %}Upraviť Dieťa{% else %}Pridať Dieťa{% endif %}{% endblock %}
+{% block title %}{% if child %}Upraviť Člena Rodiny{% else %}Pridať Člena Rodiny{% endif %}{% endblock %}
 
 {% block content %}
 <div class="page-header">
     <a href="{{ url_for('admin_dashboard') }}" class="back-link">← Späť na Správny Panel</a>
-    <h1 class="page-title">{% if child %}Upraviť Dieťa{% else %}Pridať Nové Dieťa{% endif %}</h1>
+    <h1 class="page-title">{% if child %}Upraviť Člena Rodiny{% else %}Pridať Nového Člena Rodiny{% endif %}</h1>
 </div>
 
 <div class="form-container">
@@ -14,7 +14,7 @@
         
         <div class="form-group">
             {{ form.name.label(class="form-label") }}
-            {{ form.name(class="form-input", placeholder="Zadajte meno dieťaťa", required=true) }}
+            {{ form.name(class="form-input", placeholder="Zadajte meno člena rodiny", required=true) }}
             {% if form.name.errors %}
                 <div class="form-errors">
                     {% for error in form.name.errors %}
